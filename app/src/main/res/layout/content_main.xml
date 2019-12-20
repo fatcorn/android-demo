@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
+    tools:context=".LoginActivity"
     tools:showIn="@layout/activity_main"
     tools:visibility="visible" >
 

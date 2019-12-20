@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_contact"
+        android:title="联系人"
+        android:icon="@drawable/ic_contact"
+        android:background="#FE3D81"
+        />
+    <item
+        android:id="@+id/tab_message"
+        android:title="消息"
+        android:icon="@drawable/ic_textsms"
+        android:background="#7B1FA2"
+        />
+    <item
+        android:id="@+id/tab_community"
+        android:title="社区"
+        android:icon="@drawable/ic_community"
+        android:background="#FF5252"
+        />
+    <item
+        android:id="@+id/tab_person"
+        android:title="我的"
+        android:icon="@drawable/ic_person"
+        android:background="#FF9800"
+        />
+</menu>
