@@ -21,7 +21,7 @@
         android:layout_gravity="bottom"
         android:layout_weight="1"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/button_tabs" />
+        app:menu="@menu/bottom_navi_menu" />
 
 
 </LinearLayout>

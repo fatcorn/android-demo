@@ -3,24 +3,28 @@
     <item
         android:id="@+id/tab_contact"
         android:title="联系人"
+        android:orderInCategory="0"
         android:icon="@drawable/ic_contact"
         android:background="#FE3D81"
         />
     <item
         android:id="@+id/tab_message"
         android:title="消息"
+        android:orderInCategory="1"
         android:icon="@drawable/ic_textsms"
         android:background="#7B1FA2"
         />
     <item
         android:id="@+id/tab_community"
         android:title="社区"
+        android:orderInCategory="2"
         android:icon="@drawable/ic_community"
         android:background="#FF5252"
         />
     <item
         android:id="@+id/tab_person"
         android:title="我的"
+        android:orderInCategory="3"
         android:icon="@drawable/ic_person"
         android:background="#FF9800"
         />

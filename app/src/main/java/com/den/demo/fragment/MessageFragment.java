@@ -1,4 +1,4 @@
-package com.den.demo.activity;
+package com.den.demo.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
