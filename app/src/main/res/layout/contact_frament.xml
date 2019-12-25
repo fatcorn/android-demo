@@ -5,42 +5,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/contact_tab_layout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@android:color/holo_blue_light"
-        >
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/contact_tab_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="好友"
-            android:orderInCategory="0"
-            />
+            app:tabSelectedTextColor="@android:color/holo_blue_light"
+            >
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="clubs"
-            android:orderInCategory="1"
-            />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="好友"
+                android:orderInCategory="0"
+                />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="订阅号"
-            android:orderInCategory="2"
-            />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="clubs"
+                android:orderInCategory="1"
+                />
 
-    </com.google.android.material.tabs.TabLayout>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订阅号"
+                android:orderInCategory="2"
+                />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/contact_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </com.google.android.material.tabs.TabLayout>
 
-    </androidx.viewpager.widget.ViewPager>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/contact_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
+
 </FrameLayout>

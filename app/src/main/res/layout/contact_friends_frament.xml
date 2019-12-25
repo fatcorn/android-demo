@@ -21,11 +21,15 @@
         android:visibility="invisible" >
     </TextView>
 
+    <ListView
+        android:id="@+id/friendsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <com.den.demo.component.SideBar
         android:id="@+id/friendSideBar"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:layout_gravity="right"
          />
 </FrameLayout>
