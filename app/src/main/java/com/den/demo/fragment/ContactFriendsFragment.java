@@ -14,8 +14,11 @@ import com.den.demo.R;
 import com.den.demo.adapter.ContactsDataAdapter;
 import com.den.demo.component.SideBar;
 import com.den.demo.model.Contact;
+import com.den.demo.util.PinyinComparator;
+import com.den.demo.util.PinyinCoverter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ContactFriendsFragment extends Fragment {
@@ -24,10 +27,11 @@ public class ContactFriendsFragment extends Fragment {
     private SideBar sideBar;
     // 选中字母表
     private TextView alphabetText;
-
+    // listView
     private ListView listView;
-
+    // 联系人列表
     private List<Contact> contacts;
+
 
     @Nullable
     @Override
@@ -37,6 +41,7 @@ public class ContactFriendsFragment extends Fragment {
         alphabetText = (TextView) view.findViewById(R.id.alphabetViewDialog);
         sideBar.setTextViewDialog(alphabetText);
         listView = view.findViewById(R.id.friendsListView);
+
 
         contacts = new ArrayList<>();
         contacts.add(new Contact("许家印"));
@@ -61,6 +66,16 @@ public class ContactFriendsFragment extends Fragment {
         contacts.add(new Contact("周群飞"));
         contacts.add(new Contact("刘强东"));
         contacts.add(new Contact("雷军"));
+        contacts.add(new Contact(("Jesse")));
+
+        // 根据名称，设置排序标签
+        contacts.forEach(x -> {
+            String sortTag = PinyinCoverter.InitialsCovertToChar(x.getNickName());
+
+            x.setSortTag(sortTag);
+        });
+
+        Collections.sort(contacts, new PinyinComparator());
 
         listView.setAdapter(new ContactsDataAdapter(view.getContext(), contacts));
 

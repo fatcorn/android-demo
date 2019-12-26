@@ -16,6 +16,9 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * a-z侧边栏
+ */
 public class SideBar extends View {
     public SideBar(Context context) {
         super(context);
