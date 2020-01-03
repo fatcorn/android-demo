@@ -1,11 +1,14 @@
 package com.den.demo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.den.demo.activity.HomePageActivity;
 import com.den.demo.net.NetServiceHandler;
 import com.den.demo.net.entity.ResponseMessage;
+import com.den.demo.net.protocol.ChatHandler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Button loginBtn = findViewById(R.id.login_btn);
+        // 开始登录
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password =  passwordText.getText().toString().trim();
                 Call<ResponseMessage> call =  NetServiceHandler.handler().login(phoneNumber,password);
 
+                // 网络调用不能和ui线程在一个线程
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -53,17 +58,18 @@ public class LoginActivity extends AppCompatActivity {
                                 System.out.println("请求失败");
                                 return;
                             }
+                            // 响应码为0，登录成功
                             if(response.body().getCode() == 0) {
                                 String token = response.headers().get("x-auth-token");
+                                // 使用SharedPreferences储存登录令牌
                                 SharedPreferences.Editor editor = context.getSharedPreferences("data",MODE_PRIVATE).edit();
                                 editor.putString("x-auth-token",token);
                                 editor.apply();
 
-                                Call<ResponseMessage> helloCall =  NetServiceHandler.handler().hello("1163690799456124930");
-                                Response<ResponseMessage> test = helloCall.execute();
-                                System.out.println(test.body().getData().toString());
-                                System.out.println("请求头添加成功");
-                                System.out.println("登录成功");
+                                ChatHandler.newInstance().login();
+                                // 跳转
+                                Intent intent=new Intent(LoginActivity.this, HomePageActivity.class);
+                                startActivity(intent);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -72,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
-
             }
         });
     }
