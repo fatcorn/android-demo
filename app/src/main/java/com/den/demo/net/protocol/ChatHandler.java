@@ -4,15 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.den.demo.LoginActivity;
+import com.den.demo.util.ProtocolUtil;
 import com.google.protobuf.ByteString;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.Arrays;
 
@@ -31,6 +29,7 @@ public class ChatHandler {
             public void run() {
                 try {
                     socket = new Socket("10.0.2.2",5678);
+                    socket.setTcpNoDelay(true);
 
                     OutputStream os = socket.getOutputStream();
 
@@ -53,7 +52,12 @@ public class ChatHandler {
                     messageBuilder.setHeader(headerBuilder.build());
                     messageBuilder.setBody(ByteString.copyFrom(loginBuiler.build().toByteArray()));
 
-                    os.write(messageBuilder.build().toByteArray());
+                    System.out.println("发送数据：" + Arrays.toString(messageBuilder.build().toByteArray()));
+                    //拼装报文长度声明报文
+                    byte[] messageLengthDeclareArray = ProtocolUtil.sliceMessageLengthDeclareArray(messageBuilder.build().toByteArray().length);
+                    //写入拼装报文
+                    os.write(ProtocolUtil.spliceMessage(messageLengthDeclareArray, messageBuilder.build().toByteArray()));
+                    System.out.println("已发送协议");
 
                     new Thread(new Receiver()).start();
                 } catch (IOException e) {
@@ -92,11 +96,12 @@ public class ChatHandler {
                         outStream.write(buffer,0,len);
                     }
                     byte[] messageByte = outStream.toByteArray();
-                    System.out.println(Arrays.toString(messageByte));
+                    System.out.println("响应数据:"+Arrays.toString(messageByte));
                     outStream.close();
                     is.close();
+                    Thread.sleep(200);
 
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
