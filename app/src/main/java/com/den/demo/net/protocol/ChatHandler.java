@@ -86,24 +86,50 @@ public class ChatHandler {
 
         @Override
         public void run() {
-            while (true) {
-                try {
-                    InputStream is = socket.getInputStream();
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int len = -1;
-                    while((len = is.read(buffer)) != -1){
-                        outStream.write(buffer,0,len);
+            try {
+                InputStream is = socket.getInputStream();
+                ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[256];
+                // 读取流的长度
+                int streamLen = 0;
+                // 报文长度
+                int messageLength = 0;
+                // 不停的读取数据
+                for (;;){
+                    streamLen = is.read(buffer);
+                    bufferStream.write(buffer, 0, streamLen);
+                    //已读取字节
+                    byte[] streamByte = bufferStream.toByteArray();
+                    //报文长度声明报文字节段 中解析出 报文长度
+                    if (streamByte.length >= 4 && messageLength == 0) {
+                        //报文长度声明报文字节段
+                        byte[] messageLengthByte = new byte[4];
+                        System.arraycopy(streamByte,0,messageLengthByte,0,messageLengthByte.length);
+                        messageLength = ProtocolUtil.SpliceMessageLength(messageLengthByte);
                     }
-                    byte[] messageByte = outStream.toByteArray();
-                    System.out.println("响应数据:"+Arrays.toString(messageByte));
-                    outStream.close();
-                    is.close();
+                    // 报文长度大于0，且已读取出所有报文，开始解析数据报文
+                    if(messageLength > 0 && streamByte.length - 4 >= messageLength) {
+                        // 报文正文字节数组
+                        byte[] messageByte = new byte[messageLength];
+                        // 流中剩余字节
+                        byte[] leftByte = new byte[streamByte.length - messageLength - 4];
+                        //拷贝出报文正文字节数组
+                        System.arraycopy(streamByte,4,messageByte,0,messageLength);
+                        //如果流中还有报文,拷贝出来，再清空字节缓存流
+                        if(leftByte.length > 0) {
+                            //拷贝出流中剩余字节
+                            System.arraycopy(streamByte,streamByte.length - 4 - messageLength,leftByte,0,leftByte.length);
+                            //清空缓存区,并将未处理报文写入
+                            bufferStream.reset();
+                            bufferStream.write(leftByte,0, leftByte.length);
+                        }
+                        Protocol.message message =  Protocol.message.parseFrom(messageByte);
+                        //next 处理消息
+                    }
                     Thread.sleep(200);
-
-                } catch (IOException | InterruptedException e ) {
-                    e.printStackTrace();
                 }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

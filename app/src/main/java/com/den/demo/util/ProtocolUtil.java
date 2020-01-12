@@ -1,5 +1,8 @@
 package com.den.demo.util;
 
+/**
+ * 协议工具类
+ */
 public class ProtocolUtil {
     // 报文长度声明占据的字节数
     private static int spaceLength = 4;
@@ -27,5 +30,11 @@ public class ProtocolUtil {
         System.arraycopy(data1,0,data3,0,data1.length);
         System.arraycopy(data2,0,data3,data1.length, data2.length);
         return data3;
+    }
+
+    // 计算报文长度
+    public static int SpliceMessageLength(byte[] lengthByte){
+        int messageLength = lengthByte[0] + lengthByte[1]*128 + lengthByte[2]*128*128 + lengthByte[3]*128*128*128;
+        return messageLength;
     }
 }
