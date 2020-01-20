@@ -3,9 +3,6 @@
 
 package com.den.demo.net.protocol;
 
-/**
- * 协议类
- */
 public final class Protocol {
   private Protocol() {}
   public static void registerAllExtensions(
@@ -310,6 +307,164 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(enum_scope:protocol.message.Chat_Message_Type)
+    }
+
+    /**
+     * <pre>
+     * 响应消息类型enum
+     * </pre>
+     *
+     * Protobuf enum {@code protocol.message.Response_Type}
+     */
+    public enum Response_Type
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <pre>
+       * 通知响应
+       * </pre>
+       *
+       * <code>NOTIFY = 0;</code>
+       */
+      NOTIFY(0),
+      /**
+       * <pre>
+       * 聊天消息响应
+       * </pre>
+       *
+       * <code>CHAT = 1;</code>
+       */
+      CHAT(1),
+      /**
+       * <pre>
+       * 主动发送消息响应（只会发送通知）
+       * </pre>
+       *
+       * <code>PUSH = 2;</code>
+       */
+      PUSH(2),
+      /**
+       * <pre>
+       * 无操作响应，比如Login 的响应
+       * </pre>
+       *
+       * <code>NONE = 3;</code>
+       */
+      NONE(3),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <pre>
+       * 通知响应
+       * </pre>
+       *
+       * <code>NOTIFY = 0;</code>
+       */
+      public static final int NOTIFY_VALUE = 0;
+      /**
+       * <pre>
+       * 聊天消息响应
+       * </pre>
+       *
+       * <code>CHAT = 1;</code>
+       */
+      public static final int CHAT_VALUE = 1;
+      /**
+       * <pre>
+       * 主动发送消息响应（只会发送通知）
+       * </pre>
+       *
+       * <code>PUSH = 2;</code>
+       */
+      public static final int PUSH_VALUE = 2;
+      /**
+       * <pre>
+       * 无操作响应，比如Login 的响应
+       * </pre>
+       *
+       * <code>NONE = 3;</code>
+       */
+      public static final int NONE_VALUE = 3;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Response_Type valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static Response_Type forNumber(int value) {
+        switch (value) {
+          case 0: return NOTIFY;
+          case 1: return CHAT;
+          case 2: return PUSH;
+          case 3: return NONE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Response_Type>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Response_Type> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Response_Type>() {
+              public Response_Type findValueByNumber(int number) {
+                return Response_Type.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.den.demo.net.protocol.Protocol.message.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final Response_Type[] VALUES = values();
+
+      public static Response_Type valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Response_Type(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:protocol.message.Response_Type)
     }
 
     public interface Chat_MessageOrBuilder extends
@@ -2419,6 +2574,1266 @@ public final class Protocol {
 
     }
 
+    public interface ResponseOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:protocol.message.Response)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * 响应消息序号
+       * </pre>
+       *
+       * <code>int64 ack = 1;</code>
+       * @return The ack.
+       */
+      long getAck();
+
+      /**
+       * <pre>
+       * 操作是否成功
+       * </pre>
+       *
+       * <code>bool is_success = 2;</code>
+       * @return The isSuccess.
+       */
+      boolean getIsSuccess();
+
+      /**
+       * <pre>
+       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * </pre>
+       *
+       * <code>.protocol.message.Response_Type type = 3;</code>
+       * @return The enum numeric value on the wire for type.
+       */
+      int getTypeValue();
+      /**
+       * <pre>
+       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * </pre>
+       *
+       * <code>.protocol.message.Response_Type type = 3;</code>
+       * @return The type.
+       */
+      com.den.demo.net.protocol.Protocol.message.Response_Type getType();
+    }
+    /**
+     * <pre>
+     * 响应类型
+     * </pre>
+     *
+     * Protobuf type {@code protocol.message.Response}
+     */
+    public  static final class Response extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:protocol.message.Response)
+        ResponseOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Response.newBuilder() to construct.
+      private Response(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Response() {
+        type_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Response();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Response(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+
+                ack_ = input.readInt64();
+                break;
+              }
+              case 16: {
+
+                isSuccess_ = input.readBool();
+                break;
+              }
+              case 24: {
+                int rawValue = input.readEnum();
+
+                type_ = rawValue;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.den.demo.net.protocol.Protocol.message.Response.class, com.den.demo.net.protocol.Protocol.message.Response.Builder.class);
+      }
+
+      public static final int ACK_FIELD_NUMBER = 1;
+      private long ack_;
+      /**
+       * <pre>
+       * 响应消息序号
+       * </pre>
+       *
+       * <code>int64 ack = 1;</code>
+       * @return The ack.
+       */
+      public long getAck() {
+        return ack_;
+      }
+
+      public static final int IS_SUCCESS_FIELD_NUMBER = 2;
+      private boolean isSuccess_;
+      /**
+       * <pre>
+       * 操作是否成功
+       * </pre>
+       *
+       * <code>bool is_success = 2;</code>
+       * @return The isSuccess.
+       */
+      public boolean getIsSuccess() {
+        return isSuccess_;
+      }
+
+      public static final int TYPE_FIELD_NUMBER = 3;
+      private int type_;
+      /**
+       * <pre>
+       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * </pre>
+       *
+       * <code>.protocol.message.Response_Type type = 3;</code>
+       * @return The enum numeric value on the wire for type.
+       */
+      public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <pre>
+       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * </pre>
+       *
+       * <code>.protocol.message.Response_Type type = 3;</code>
+       * @return The type.
+       */
+      public com.den.demo.net.protocol.Protocol.message.Response_Type getType() {
+        @SuppressWarnings("deprecation")
+        com.den.demo.net.protocol.Protocol.message.Response_Type result = com.den.demo.net.protocol.Protocol.message.Response_Type.valueOf(type_);
+        return result == null ? com.den.demo.net.protocol.Protocol.message.Response_Type.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (ack_ != 0L) {
+          output.writeInt64(1, ack_);
+        }
+        if (isSuccess_ != false) {
+          output.writeBool(2, isSuccess_);
+        }
+        if (type_ != com.den.demo.net.protocol.Protocol.message.Response_Type.NOTIFY.getNumber()) {
+          output.writeEnum(3, type_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (ack_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(1, ack_);
+        }
+        if (isSuccess_ != false) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(2, isSuccess_);
+        }
+        if (type_ != com.den.demo.net.protocol.Protocol.message.Response_Type.NOTIFY.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(3, type_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Response)) {
+          return super.equals(obj);
+        }
+        com.den.demo.net.protocol.Protocol.message.Response other = (com.den.demo.net.protocol.Protocol.message.Response) obj;
+
+        if (getAck()
+            != other.getAck()) return false;
+        if (getIsSuccess()
+            != other.getIsSuccess()) return false;
+        if (type_ != other.type_) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ACK_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getAck());
+        hash = (37 * hash) + IS_SUCCESS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getIsSuccess());
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + type_;
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Response prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * 响应类型
+       * </pre>
+       *
+       * Protobuf type {@code protocol.message.Response}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:protocol.message.Response)
+          com.den.demo.net.protocol.Protocol.message.ResponseOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.den.demo.net.protocol.Protocol.message.Response.class, com.den.demo.net.protocol.Protocol.message.Response.Builder.class);
+        }
+
+        // Construct using com.den.demo.net.protocol.Protocol.message.Response.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          ack_ = 0L;
+
+          isSuccess_ = false;
+
+          type_ = 0;
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Response getDefaultInstanceForType() {
+          return com.den.demo.net.protocol.Protocol.message.Response.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Response build() {
+          com.den.demo.net.protocol.Protocol.message.Response result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Response buildPartial() {
+          com.den.demo.net.protocol.Protocol.message.Response result = new com.den.demo.net.protocol.Protocol.message.Response(this);
+          result.ack_ = ack_;
+          result.isSuccess_ = isSuccess_;
+          result.type_ = type_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.den.demo.net.protocol.Protocol.message.Response) {
+            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Response)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Response other) {
+          if (other == com.den.demo.net.protocol.Protocol.message.Response.getDefaultInstance()) return this;
+          if (other.getAck() != 0L) {
+            setAck(other.getAck());
+          }
+          if (other.getIsSuccess() != false) {
+            setIsSuccess(other.getIsSuccess());
+          }
+          if (other.type_ != 0) {
+            setTypeValue(other.getTypeValue());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.den.demo.net.protocol.Protocol.message.Response parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Response) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private long ack_ ;
+        /**
+         * <pre>
+         * 响应消息序号
+         * </pre>
+         *
+         * <code>int64 ack = 1;</code>
+         * @return The ack.
+         */
+        public long getAck() {
+          return ack_;
+        }
+        /**
+         * <pre>
+         * 响应消息序号
+         * </pre>
+         *
+         * <code>int64 ack = 1;</code>
+         * @param value The ack to set.
+         * @return This builder for chaining.
+         */
+        public Builder setAck(long value) {
+          
+          ack_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 响应消息序号
+         * </pre>
+         *
+         * <code>int64 ack = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearAck() {
+          
+          ack_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private boolean isSuccess_ ;
+        /**
+         * <pre>
+         * 操作是否成功
+         * </pre>
+         *
+         * <code>bool is_success = 2;</code>
+         * @return The isSuccess.
+         */
+        public boolean getIsSuccess() {
+          return isSuccess_;
+        }
+        /**
+         * <pre>
+         * 操作是否成功
+         * </pre>
+         *
+         * <code>bool is_success = 2;</code>
+         * @param value The isSuccess to set.
+         * @return This builder for chaining.
+         */
+        public Builder setIsSuccess(boolean value) {
+          
+          isSuccess_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 操作是否成功
+         * </pre>
+         *
+         * <code>bool is_success = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearIsSuccess() {
+          
+          isSuccess_ = false;
+          onChanged();
+          return this;
+        }
+
+        private int type_ = 0;
+        /**
+         * <pre>
+         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * </pre>
+         *
+         * <code>.protocol.message.Response_Type type = 3;</code>
+         * @return The enum numeric value on the wire for type.
+         */
+        public int getTypeValue() {
+          return type_;
+        }
+        /**
+         * <pre>
+         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * </pre>
+         *
+         * <code>.protocol.message.Response_Type type = 3;</code>
+         * @param value The enum numeric value on the wire for type to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTypeValue(int value) {
+          type_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * </pre>
+         *
+         * <code>.protocol.message.Response_Type type = 3;</code>
+         * @return The type.
+         */
+        public com.den.demo.net.protocol.Protocol.message.Response_Type getType() {
+          @SuppressWarnings("deprecation")
+          com.den.demo.net.protocol.Protocol.message.Response_Type result = com.den.demo.net.protocol.Protocol.message.Response_Type.valueOf(type_);
+          return result == null ? com.den.demo.net.protocol.Protocol.message.Response_Type.UNRECOGNIZED : result;
+        }
+        /**
+         * <pre>
+         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * </pre>
+         *
+         * <code>.protocol.message.Response_Type type = 3;</code>
+         * @param value The type to set.
+         * @return This builder for chaining.
+         */
+        public Builder setType(com.den.demo.net.protocol.Protocol.message.Response_Type value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * </pre>
+         *
+         * <code>.protocol.message.Response_Type type = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearType() {
+          
+          type_ = 0;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:protocol.message.Response)
+      }
+
+      // @@protoc_insertion_point(class_scope:protocol.message.Response)
+      private static final com.den.demo.net.protocol.Protocol.message.Response DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Response();
+      }
+
+      public static com.den.demo.net.protocol.Protocol.message.Response getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Response>
+          PARSER = new com.google.protobuf.AbstractParser<Response>() {
+        @java.lang.Override
+        public Response parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Response(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Response> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Response> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.den.demo.net.protocol.Protocol.message.Response getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface NotifyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:protocol.message.Notify)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * 与响应对应的序列号
+       * </pre>
+       *
+       * <code>int64 seq = 1;</code>
+       * @return The seq.
+       */
+      long getSeq();
+    }
+    /**
+     * <pre>
+     *通知类型
+     * </pre>
+     *
+     * Protobuf type {@code protocol.message.Notify}
+     */
+    public  static final class Notify extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:protocol.message.Notify)
+        NotifyOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Notify.newBuilder() to construct.
+      private Notify(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Notify() {
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Notify();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Notify(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+
+                seq_ = input.readInt64();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.den.demo.net.protocol.Protocol.message.Notify.class, com.den.demo.net.protocol.Protocol.message.Notify.Builder.class);
+      }
+
+      public static final int SEQ_FIELD_NUMBER = 1;
+      private long seq_;
+      /**
+       * <pre>
+       * 与响应对应的序列号
+       * </pre>
+       *
+       * <code>int64 seq = 1;</code>
+       * @return The seq.
+       */
+      public long getSeq() {
+        return seq_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (seq_ != 0L) {
+          output.writeInt64(1, seq_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (seq_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(1, seq_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Notify)) {
+          return super.equals(obj);
+        }
+        com.den.demo.net.protocol.Protocol.message.Notify other = (com.den.demo.net.protocol.Protocol.message.Notify) obj;
+
+        if (getSeq()
+            != other.getSeq()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + SEQ_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getSeq());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Notify prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       *通知类型
+       * </pre>
+       *
+       * Protobuf type {@code protocol.message.Notify}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:protocol.message.Notify)
+          com.den.demo.net.protocol.Protocol.message.NotifyOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.den.demo.net.protocol.Protocol.message.Notify.class, com.den.demo.net.protocol.Protocol.message.Notify.Builder.class);
+        }
+
+        // Construct using com.den.demo.net.protocol.Protocol.message.Notify.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          seq_ = 0L;
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstanceForType() {
+          return com.den.demo.net.protocol.Protocol.message.Notify.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Notify build() {
+          com.den.demo.net.protocol.Protocol.message.Notify result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.den.demo.net.protocol.Protocol.message.Notify buildPartial() {
+          com.den.demo.net.protocol.Protocol.message.Notify result = new com.den.demo.net.protocol.Protocol.message.Notify(this);
+          result.seq_ = seq_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.den.demo.net.protocol.Protocol.message.Notify) {
+            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Notify)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Notify other) {
+          if (other == com.den.demo.net.protocol.Protocol.message.Notify.getDefaultInstance()) return this;
+          if (other.getSeq() != 0L) {
+            setSeq(other.getSeq());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.den.demo.net.protocol.Protocol.message.Notify parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Notify) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private long seq_ ;
+        /**
+         * <pre>
+         * 与响应对应的序列号
+         * </pre>
+         *
+         * <code>int64 seq = 1;</code>
+         * @return The seq.
+         */
+        public long getSeq() {
+          return seq_;
+        }
+        /**
+         * <pre>
+         * 与响应对应的序列号
+         * </pre>
+         *
+         * <code>int64 seq = 1;</code>
+         * @param value The seq to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSeq(long value) {
+          
+          seq_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 与响应对应的序列号
+         * </pre>
+         *
+         * <code>int64 seq = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearSeq() {
+          
+          seq_ = 0L;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:protocol.message.Notify)
+      }
+
+      // @@protoc_insertion_point(class_scope:protocol.message.Notify)
+      private static final com.den.demo.net.protocol.Protocol.message.Notify DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Notify();
+      }
+
+      public static com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Notify>
+          PARSER = new com.google.protobuf.AbstractParser<Notify>() {
+        @java.lang.Override
+        public Notify parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Notify(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Notify> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Notify> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     public interface HeaderOrBuilder extends
         // @@protoc_insertion_point(interface_extends:protocol.message.Header)
         com.google.protobuf.MessageOrBuilder {
@@ -2458,10 +3873,20 @@ public final class Protocol {
        * 消息长度 
        * </pre>
        *
-       * <code>int32 length = 3;</code>
-       * @return The length.
+       * <code>int32 body_length = 3;</code>
+       * @return The bodyLength.
        */
-      int getLength();
+      int getBodyLength();
+
+      /**
+       * <pre>
+       * 消息序号,毫秒级时间戳 + 三位数序列号 000 - 999，ack=seq+1
+       * </pre>
+       *
+       * <code>int64 seq = 4;</code>
+       * @return The seq.
+       */
+      long getSeq();
     }
     /**
      * <pre>
@@ -2526,7 +3951,12 @@ public final class Protocol {
               }
               case 24: {
 
-                length_ = input.readInt32();
+                bodyLength_ = input.readInt32();
+                break;
+              }
+              case 32: {
+
+                seq_ = input.readInt64();
                 break;
               }
               default: {
@@ -2619,18 +4049,32 @@ public final class Protocol {
         }
       }
 
-      public static final int LENGTH_FIELD_NUMBER = 3;
-      private int length_;
+      public static final int BODY_LENGTH_FIELD_NUMBER = 3;
+      private int bodyLength_;
       /**
        * <pre>
        * 消息长度 
        * </pre>
        *
-       * <code>int32 length = 3;</code>
-       * @return The length.
+       * <code>int32 body_length = 3;</code>
+       * @return The bodyLength.
        */
-      public int getLength() {
-        return length_;
+      public int getBodyLength() {
+        return bodyLength_;
+      }
+
+      public static final int SEQ_FIELD_NUMBER = 4;
+      private long seq_;
+      /**
+       * <pre>
+       * 消息序号,毫秒级时间戳 + 三位数序列号 000 - 999，ack=seq+1
+       * </pre>
+       *
+       * <code>int64 seq = 4;</code>
+       * @return The seq.
+       */
+      public long getSeq() {
+        return seq_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -2653,8 +4097,11 @@ public final class Protocol {
         if (!getMessageTypeBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 2, messageType_);
         }
-        if (length_ != 0) {
-          output.writeInt32(3, length_);
+        if (bodyLength_ != 0) {
+          output.writeInt32(3, bodyLength_);
+        }
+        if (seq_ != 0L) {
+          output.writeInt64(4, seq_);
         }
         unknownFields.writeTo(output);
       }
@@ -2672,9 +4119,13 @@ public final class Protocol {
         if (!getMessageTypeBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, messageType_);
         }
-        if (length_ != 0) {
+        if (bodyLength_ != 0) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(3, length_);
+            .computeInt32Size(3, bodyLength_);
+        }
+        if (seq_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(4, seq_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -2696,8 +4147,10 @@ public final class Protocol {
                 other.getProtocolVersion())) return false;
         if (!getMessageType()
             .equals(other.getMessageType())) return false;
-        if (getLength()
-            != other.getLength()) return false;
+        if (getBodyLength()
+            != other.getBodyLength()) return false;
+        if (getSeq()
+            != other.getSeq()) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
@@ -2714,8 +4167,11 @@ public final class Protocol {
             getProtocolVersion());
         hash = (37 * hash) + MESSAGE_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getMessageType().hashCode();
-        hash = (37 * hash) + LENGTH_FIELD_NUMBER;
-        hash = (53 * hash) + getLength();
+        hash = (37 * hash) + BODY_LENGTH_FIELD_NUMBER;
+        hash = (53 * hash) + getBodyLength();
+        hash = (37 * hash) + SEQ_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getSeq());
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -2857,7 +4313,9 @@ public final class Protocol {
 
           messageType_ = "";
 
-          length_ = 0;
+          bodyLength_ = 0;
+
+          seq_ = 0L;
 
           return this;
         }
@@ -2887,7 +4345,8 @@ public final class Protocol {
           com.den.demo.net.protocol.Protocol.message.Header result = new com.den.demo.net.protocol.Protocol.message.Header(this);
           result.protocolVersion_ = protocolVersion_;
           result.messageType_ = messageType_;
-          result.length_ = length_;
+          result.bodyLength_ = bodyLength_;
+          result.seq_ = seq_;
           onBuilt();
           return result;
         }
@@ -2943,8 +4402,11 @@ public final class Protocol {
             messageType_ = other.messageType_;
             onChanged();
           }
-          if (other.getLength() != 0) {
-            setLength(other.getLength());
+          if (other.getBodyLength() != 0) {
+            setBodyLength(other.getBodyLength());
+          }
+          if (other.getSeq() != 0L) {
+            setSeq(other.getSeq());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -3113,30 +4575,30 @@ public final class Protocol {
           return this;
         }
 
-        private int length_ ;
+        private int bodyLength_ ;
         /**
          * <pre>
          * 消息长度 
          * </pre>
          *
-         * <code>int32 length = 3;</code>
-         * @return The length.
+         * <code>int32 body_length = 3;</code>
+         * @return The bodyLength.
          */
-        public int getLength() {
-          return length_;
+        public int getBodyLength() {
+          return bodyLength_;
         }
         /**
          * <pre>
          * 消息长度 
          * </pre>
          *
-         * <code>int32 length = 3;</code>
-         * @param value The length to set.
+         * <code>int32 body_length = 3;</code>
+         * @param value The bodyLength to set.
          * @return This builder for chaining.
          */
-        public Builder setLength(int value) {
+        public Builder setBodyLength(int value) {
           
-          length_ = value;
+          bodyLength_ = value;
           onChanged();
           return this;
         }
@@ -3145,12 +4607,54 @@ public final class Protocol {
          * 消息长度 
          * </pre>
          *
-         * <code>int32 length = 3;</code>
+         * <code>int32 body_length = 3;</code>
          * @return This builder for chaining.
          */
-        public Builder clearLength() {
+        public Builder clearBodyLength() {
           
-          length_ = 0;
+          bodyLength_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private long seq_ ;
+        /**
+         * <pre>
+         * 消息序号,毫秒级时间戳 + 三位数序列号 000 - 999，ack=seq+1
+         * </pre>
+         *
+         * <code>int64 seq = 4;</code>
+         * @return The seq.
+         */
+        public long getSeq() {
+          return seq_;
+        }
+        /**
+         * <pre>
+         * 消息序号,毫秒级时间戳 + 三位数序列号 000 - 999，ack=seq+1
+         * </pre>
+         *
+         * <code>int64 seq = 4;</code>
+         * @param value The seq to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSeq(long value) {
+          
+          seq_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 消息序号,毫秒级时间戳 + 三位数序列号 000 - 999，ack=seq+1
+         * </pre>
+         *
+         * <code>int64 seq = 4;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearSeq() {
+          
+          seq_ = 0L;
           onChanged();
           return this;
         }
@@ -3861,6 +5365,16 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Login_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protocol_message_Response_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protocol_message_Response_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protocol_message_Notify_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protocol_message_Notify_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Header_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3874,18 +5388,23 @@ public final class Protocol {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\022\010protocol\"\223\003\n\007message\022(\n" +
+      "\n\rmessage.proto\022\010protocol\"\323\004\n\007message\022(\n" +
       "\006header\030\001 \001(\0132\030.protocol.message.Header\022" +
       "\014\n\004body\030\002 \001(\014\032v\n\014Chat_Message\022\017\n\007content" +
       "\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.protocol.message." +
       "Chat_Message_Type\022\017\n\007send_to\030\003 \001(\003\022\021\n\tse" +
       "nd_from\030\004 \001(\003\0326\n\016Friend_Request\022\022\n\napply" +
       "_from\030\001 \001(\003\022\020\n\010apply_to\030\002 \001(\003\032\026\n\005Login\022\r" +
-      "\n\005token\030\001 \001(\t\032H\n\006Header\022\030\n\020protocol_vers" +
-      "ion\030\001 \001(\002\022\024\n\014message_type\030\002 \001(\t\022\016\n\006lengt" +
-      "h\030\003 \001(\005\">\n\021Chat_Message_Type\022\010\n\004TEXT\020\000\022\t" +
-      "\n\005IMAGE\020\001\022\t\n\005VOICE\020\002\022\t\n\005VIDEO\020\003B%\n\031com.d" +
-      "en.demo.net.protocolB\010Protocolb\006proto3"
+      "\n\005token\030\001 \001(\t\032Z\n\010Response\022\013\n\003ack\030\001 \001(\003\022\022" +
+      "\n\nis_success\030\002 \001(\010\022-\n\004type\030\003 \001(\0162\037.proto" +
+      "col.message.Response_Type\032\025\n\006Notify\022\013\n\003s" +
+      "eq\030\001 \001(\003\032Z\n\006Header\022\030\n\020protocol_version\030\001" +
+      " \001(\002\022\024\n\014message_type\030\002 \001(\t\022\023\n\013body_lengt" +
+      "h\030\003 \001(\005\022\013\n\003seq\030\004 \001(\003\">\n\021Chat_Message_Typ" +
+      "e\022\010\n\004TEXT\020\000\022\t\n\005IMAGE\020\001\022\t\n\005VOICE\020\002\022\t\n\005VID" +
+      "EO\020\003\"9\n\rResponse_Type\022\n\n\006NOTIFY\020\000\022\010\n\004CHA" +
+      "T\020\001\022\010\n\004PUSH\020\002\022\010\n\004NONE\020\003B%\n\031com.den.demo." +
+      "net.protocolB\010Protocolb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3915,12 +5434,24 @@ public final class Protocol {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Login_descriptor,
         new java.lang.String[] { "Token", });
-    internal_static_protocol_message_Header_descriptor =
+    internal_static_protocol_message_Response_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(3);
+    internal_static_protocol_message_Response_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protocol_message_Response_descriptor,
+        new java.lang.String[] { "Ack", "IsSuccess", "Type", });
+    internal_static_protocol_message_Notify_descriptor =
+      internal_static_protocol_message_descriptor.getNestedTypes().get(4);
+    internal_static_protocol_message_Notify_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protocol_message_Notify_descriptor,
+        new java.lang.String[] { "Seq", });
+    internal_static_protocol_message_Header_descriptor =
+      internal_static_protocol_message_descriptor.getNestedTypes().get(5);
     internal_static_protocol_message_Header_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Header_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "MessageType", "Length", });
+        new java.lang.String[] { "ProtocolVersion", "MessageType", "BodyLength", "Seq", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

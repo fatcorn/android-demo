@@ -1,9 +1,15 @@
 package com.den.demo.util;
 
+import java.time.Instant;
+import java.util.Locale;
+
 /**
  * 协议工具类
  */
 public class ProtocolUtil {
+
+    private static int seq = -1;
+
     // 报文长度声明占据的字节数
     private static int spaceLength = 4;
 
@@ -25,16 +31,38 @@ public class ProtocolUtil {
     }
 
     // 拼接报文 = 报文长度声明+报文正文
-    public static byte[] spliceMessage(byte[] data1, byte[] data2) {
-        byte[] data3 = new byte[data1.length + data2.length];
-        System.arraycopy(data1,0,data3,0,data1.length);
-        System.arraycopy(data2,0,data3,data1.length, data2.length);
-        return data3;
+    public static byte[] spliceMessage(byte[] messageByte) {
+        // 计算报文长度声明
+        byte[] lengthDeclareBytes = new byte[spaceLength];
+        lengthDeclareBytes[0] = (byte) (messageByte.length%messageLengthDeclareNumberBase);
+        lengthDeclareBytes[1] = (byte) (messageByte.length/messageLengthDeclareNumberBase);
+        lengthDeclareBytes[2] = (byte) (messageByte.length/hundredBitNumberBase);
+        lengthDeclareBytes[3] = (byte) (messageByte.length/thousandBitNumberBase);
+        //连接报文产犊声明字节 + 报文正文
+        byte[] result = new byte[lengthDeclareBytes.length + messageByte.length];
+        System.arraycopy(lengthDeclareBytes,0,result,0,lengthDeclareBytes.length);
+        System.arraycopy(messageByte,0,result,lengthDeclareBytes.length, messageByte.length);
+        return result;
     }
 
     // 计算报文长度
-    public static int SpliceMessageLength(byte[] lengthByte){
+    public static int spliceMessageLength(byte[] lengthByte){
         int messageLength = lengthByte[0] + lengthByte[1]*128 + lengthByte[2]*128*128 + lengthByte[3]*128*128*128;
         return messageLength;
+    }
+
+    // 产生消息请求头部序列,微秒timestamp + 000-999
+    public static long generateNextSeq() {
+        if (seq == 999) {
+            seq = 0;
+        } else {
+            seq++;
+        }
+        String seqStr = String.format(Locale.CHINA,"%03d", seq);
+        //纳秒部分
+        String nanoString =  String.valueOf(Instant.now().getNano());
+        //seq 基数
+        String timestamp = Instant.now().getEpochSecond() + nanoString.substring(0,nanoString.length() -3);
+        return Long.valueOf(timestamp + seq);
     }
 }

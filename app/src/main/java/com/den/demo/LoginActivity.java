@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.den.demo.activity.HomePageActivity;
 import com.den.demo.net.NetServiceHandler;
 import com.den.demo.net.entity.ResponseMessage;
-import com.den.demo.net.protocol.ChatHandler;
+import com.den.demo.net.protocol.ProtocolHandler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,15 +61,19 @@ public class LoginActivity extends AppCompatActivity {
                             // 响应码为0，登录成功
                             if(response.body().getCode() == 0) {
                                 String token = response.headers().get("x-auth-token");
-                                // 使用SharedPreferences储存登录令牌
-                                SharedPreferences.Editor editor = context.getSharedPreferences("data",MODE_PRIVATE).edit();
-                                editor.putString("x-auth-token",token);
-                                editor.apply();
-
-                                ChatHandler.newInstance().login();
+                                //重复登录，再次请求，会带上token，返回token会变为空,之后限制重复登录
+                                if(!"".equals(token) && token != null) {
+                                    // 使用SharedPreferences储存登录令牌
+                                    SharedPreferences preferences = context.getSharedPreferences("data",MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("x-auth-token",token);
+                                    editor.apply();
+                                }
                                 // 跳转
                                 Intent intent=new Intent(LoginActivity.this, HomePageActivity.class);
                                 startActivity(intent);
+                                //登录聊天服务器
+                                ProtocolHandler.getInstance().login();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

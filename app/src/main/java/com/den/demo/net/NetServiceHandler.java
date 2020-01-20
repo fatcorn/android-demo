@@ -16,7 +16,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class NetServiceHandler {
 
     // 静态retrofit对象，目的创建NetService单例模式
-
     Context context = LoginActivity.getContextOfApplication();
 
 
