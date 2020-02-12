@@ -22,7 +22,7 @@ public class ContactFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contact_frament, container, false);
+        View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.contact_tab_layout);
         viewPager = (ViewPager) view.findViewById(R.id.contact_view);

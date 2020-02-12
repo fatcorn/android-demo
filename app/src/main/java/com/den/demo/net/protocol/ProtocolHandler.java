@@ -59,7 +59,7 @@ public class ProtocolHandler {
                 loginBuilder.setToken(token);
                 // body 数组
                 byte[] bodyBytes = loginBuilder.build().toByteArray();
-                Protocol.message message = assembleMessage("login_message",bodyBytes);
+                Protocol.message message = assembleMessage(ProtocolAdapter.LOGIN_MESSAGE_TYPE,bodyBytes);
 
                 // 将消息入队
                 messageQueue.add(message);
@@ -111,8 +111,11 @@ public class ProtocolHandler {
                     Protocol.message message = messageQueue.take();
                     //获取输出流
                     OutputStream os = socket.getOutputStream();
+
+                    System.out.println("写入消息:" + Arrays.toString(ProtocolUtil.spliceMessage(message.toByteArray())));
                     //写入拼装报文
                     os.write(ProtocolUtil.spliceMessage(message.toByteArray()));
+
                     // 将消息存入缓存消息
                     messageBuffer.put(message.getHeader().getSeq(), message);
                 } catch (InterruptedException | IOException e) {

@@ -15,8 +15,11 @@ class ResponseMessageHandler extends ProtocolAdapter {
             System.out.println("已分配消息");
             switch (response.getType()) {
                 case CHAT:
+                    break;
                 case NONE:
+                    break;
                 case PUSH:
+                    break;
                 case NOTIFY:
                     //移除消息缓存
                     ProtocolHandler.getInstance().getMessageBuffer().remove(response.getAck() -1);
@@ -27,6 +30,7 @@ class ResponseMessageHandler extends ProtocolAdapter {
                     Protocol.message notifyMessage = ProtocolHandler.assembleMessage("notify_message",notifyBuilder.build().toByteArray());
                     //将通知加入队列
                     ProtocolHandler.getInstance().getMessageQueue().add(notifyMessage);
+                    break;
             }
         } catch (InvalidProtocolBufferException e) {
             System.out.println("响应消息转换失败");

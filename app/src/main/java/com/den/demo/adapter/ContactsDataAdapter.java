@@ -16,6 +16,9 @@ import com.den.demo.util.PinyinCoverter;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 联系人页面数据适配
+ */
 public class ContactsDataAdapter extends BaseAdapter {
 
     // 联系人列表

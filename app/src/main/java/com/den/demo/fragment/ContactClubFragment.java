@@ -15,7 +15,7 @@ public class ContactClubFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.contact_clubs_frament, container, false);
+        return inflater.inflate(R.layout.fragment_contact_clubs, container, false);
     }
 
 }

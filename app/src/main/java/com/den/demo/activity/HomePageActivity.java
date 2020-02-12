@@ -4,6 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.den.demo.R;
 import com.den.demo.adapter.HomePageActivityViewPagerAdapter;
@@ -11,14 +16,32 @@ import com.den.demo.fragment.CommunityFragment;
 import com.den.demo.fragment.ContactFragment;
 import com.den.demo.fragment.MessageFragment;
 import com.den.demo.fragment.PersonalFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+
+import java.lang.reflect.Field;
+
+import q.rorbin.badgeview.QBadgeView;
 
 
 public class HomePageActivity extends AppCompatActivity {
 
     private ViewPager mainActivityViewPager;
+    //底部导航
     private BottomNavigationView bottomNavView;
+    // viewPager适配器
     private HomePageActivityViewPagerAdapter adapter;
+    // 联系人消息计数
+    private TextView contactMessageCountTextView;
+    // 消息计数
+    private TextView messageCountTextView;
+    // 社区消息计数
+    private TextView communityMessageCountTextView;
+    // 我的消息计数
+    private TextView personMessageCountTextView;
+
 
 
     @Override
@@ -28,9 +51,14 @@ public class HomePageActivity extends AppCompatActivity {
 
         mainActivityViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         bottomNavView = (BottomNavigationView) findViewById(R.id.main_bottom_nav_view);
-
         adapter = new HomePageActivityViewPagerAdapter(getSupportFragmentManager());
-//        为Adapter添加Fragment
+        // 设置红点
+        // 这里我设置参数为1
+        for (int i = 0; i < bottomNavView.getChildCount(); i++) {
+            showBadgeView(i, bottomNavView);
+        }
+
+        //        为Adapter添加Fragment
         adapter.addFragment(new ContactFragment());
         adapter.addFragment(new MessageFragment());
         adapter.addFragment(new CommunityFragment());
@@ -80,5 +108,56 @@ public class HomePageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+//    /**
+//     * 顶部导航
+//     * @param menu
+//     * @return
+//     */
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_add_friends, menu);
+//        return true;
+//    }
+
+    /**
+     * BottomNavigationView显示角标
+     *
+     * @param viewIndex  tab索引
+     * @param bottomNavView 显示的数字，小于等于0是将不显示
+     */
+    private void showBadgeView(int viewIndex, BottomNavigationView bottomNavView) {
+        // 具体child的查找和view的嵌套结构请在源码中查看
+        // 从bottomNavigationView中获得BottomNavigationMenuView
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavView.getChildAt(viewIndex);
+
+        for (int i = 0; i < menuView.getChildCount(); i ++) {
+            // 获得viewIndex对应子tab
+            View view = menuView.getChildAt(i);
+
+            BottomNavigationItemView itemView = (BottomNavigationItemView) view;
+
+            //加载我们的角标View，新创建的一个布局
+            View badge = LayoutInflater.from(this).inflate(R.layout.badge_layout, menuView, false);
+            //添加到Tab上
+            itemView.addView(badge);
+            TextView textView = badge.findViewById(R.id.badgeTextView);
+            switch (i) {
+                case 0:
+                   contactMessageCountTextView = textView;
+                   contactMessageCountTextView.setText(String.valueOf(i));
+                case 1:
+                    messageCountTextView = textView;
+                    messageCountTextView.setText(String.valueOf(i));
+                case 2:
+                    communityMessageCountTextView = textView;
+                    communityMessageCountTextView.setText(String.valueOf(i));
+                case 3:
+                    personMessageCountTextView = textView;
+                    personMessageCountTextView.setText(String.valueOf(i));
+            }
+        }
     }
 }

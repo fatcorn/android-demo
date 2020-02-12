@@ -10,11 +10,14 @@ import java.util.concurrent.Executors;
 abstract class ProtocolAdapter {
     //线程池
     private static ExecutorService executorService = Executors.newFixedThreadPool(5);
-
     //处理接收消息
     abstract void doProcess(Protocol.message message) throws InvalidProtocolBufferException;
-
-
+    //消息类型
+    public final static String CHAT_MESSAGE_TYPE = "chat_message";
+    public final static String FRIEND_REQUEST_MESSAGE_TYPE = "friend_request_message";
+    public final static String RESPONSE_MESSAGE_TYPE = "response_message";
+    public final static String NOTIFY_MESSAGE_TYPE = "notify_message";
+    public final static String LOGIN_MESSAGE_TYPE = "login_message";
     // 分发消息给各个消息handler
     static void distributeMessage(Protocol.message message) {
         //将消息提交给线程池处理

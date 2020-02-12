@@ -1,7 +1,11 @@
 package com.den.demo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -10,7 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.den.demo.LoginActivity;
 import com.den.demo.R;
+import com.den.demo.activity.FriendSearch;
+import com.den.demo.activity.HomePageActivity;
 import com.den.demo.adapter.ContactsDataAdapter;
 import com.den.demo.component.SideBar;
 import com.den.demo.model.Contact;
@@ -36,7 +43,9 @@ public class ContactFriendsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contact_friends_frament, container, false);
+
+        setHasOptionsMenu(true);
+        View view = inflater.inflate(R.layout.fragment_contact_friends, container, false);
         sideBar = (SideBar) view.findViewById(R.id.friendSideBar);
         alphabetText = (TextView) view.findViewById(R.id.alphabetViewDialog);
         sideBar.setTextViewDialog(alphabetText);
@@ -80,6 +89,27 @@ public class ContactFriendsFragment extends Fragment {
         listView.setAdapter(new ContactsDataAdapter(view.getContext(), contacts));
 
         return view;
+    }
+
+    // 加载菜单
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_add_friends,menu);
+    }
+
+    // 菜单点击操作
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            //添加好友,跳转到添加好友页面
+            case R.id.action_add_friends:
+                // 跳转
+                Intent intent=new Intent(getContext(), FriendSearch.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

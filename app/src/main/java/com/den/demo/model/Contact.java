@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 联系人列表item数据
+ */
 @Data
 @AllArgsConstructor
 public class Contact {
