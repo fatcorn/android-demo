@@ -74,7 +74,7 @@ public class MessageDataAdapter extends BaseAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.message_list_item_layout, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout_message, null);
             viewHolder.ivAvatar =  convertView.findViewById(R.id.messageAvatarImageView);
             viewHolder.nickNameTextView = convertView.findViewById(R.id.messageNickNameTextView);
             viewHolder.lastMessageTextView = convertView.findViewById(R.id.messageLastMessageTextView);

@@ -17,7 +17,11 @@ public class Contact {
     //排序字符
     private String sortTag;
 
-    public Contact(String nickName) {
+    // 联系id
+    private Long userId;
+
+    public Contact(String nickName,Long userId) {
         this.nickName = nickName;
+        this.userId = userId;
     }
 }

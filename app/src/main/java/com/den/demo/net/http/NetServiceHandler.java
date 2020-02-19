@@ -1,15 +1,18 @@
-package com.den.demo.net;
+package com.den.demo.net.http;
 
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.den.demo.LoginActivity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -27,12 +30,16 @@ public class NetServiceHandler {
         NetServiceHandler netServiceHandler = new NetServiceHandler();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:9201/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .client(netServiceHandler.genericClient())
                 .build();
         return retrofit.create(NetService.class);
     }
 
+    /**
+     *
+     * @return
+     */
     private OkHttpClient genericClient() {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("data",MODE_PRIVATE);

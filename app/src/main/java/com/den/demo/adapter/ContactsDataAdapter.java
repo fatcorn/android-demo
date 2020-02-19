@@ -10,10 +10,7 @@ import android.widget.TextView;
 
 import com.den.demo.R;
 import com.den.demo.model.Contact;
-import com.den.demo.util.PinyinComparator;
-import com.den.demo.util.PinyinCoverter;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,7 +55,7 @@ public class ContactsDataAdapter extends BaseAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.friend_list_item_layout, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout_contacts, null);
             viewHolder.ivAvatar =  convertView.findViewById(R.id.friendAvatarImageView);
             viewHolder.tv = convertView.findViewById(R.id.friendNickNameTextView);
             viewHolder.groupTagTextView = convertView.findViewById(R.id.friendGroupTag);

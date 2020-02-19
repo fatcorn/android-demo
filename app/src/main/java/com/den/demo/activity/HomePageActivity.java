@@ -125,8 +125,8 @@ public class HomePageActivity extends AppCompatActivity {
     /**
      * BottomNavigationView显示角标
      *
-     * @param viewIndex  tab索引
-     * @param bottomNavView 显示的数字，小于等于0是将不显示
+     * @param viewIndex  tab索引 显示的数字，小于等于0是将不显示
+     * @param bottomNavView 底部导航栏，用于获取菜单
      */
     private void showBadgeView(int viewIndex, BottomNavigationView bottomNavView) {
         // 具体child的查找和view的嵌套结构请在源码中查看
@@ -141,7 +141,7 @@ public class HomePageActivity extends AppCompatActivity {
 
             //加载我们的角标View，新创建的一个布局
             View badge = LayoutInflater.from(this).inflate(R.layout.badge_layout, menuView, false);
-            //添加到Tab上
+            //将 角标添加到Tab上
             itemView.addView(badge);
             TextView textView = badge.findViewById(R.id.badgeTextView);
             switch (i) {

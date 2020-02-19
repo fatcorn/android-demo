@@ -61,13 +61,12 @@ public class MessageFragment extends Fragment {
         listView.setAdapter(messageDataAdapter);
 
 
-        //ListView item的点击事件
+        //ListView item的点击事件，跳转到聊天窗口
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             Intent intent = new Intent(inflater.getContext(), ChatWindowActivity.class);
             startActivity(intent);
         });
         return view;
-
     }
 
 }

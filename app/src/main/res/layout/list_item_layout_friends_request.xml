@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 好友请求显示基本容器 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/friendItem"
+    android:orientation="vertical">
+
+
+    <!-- 间隔条 -->
+    <TextView
+        android:id="@+id/friendGroupTag"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="10dp"
+        android:background="#7fCCCCCC"
+        android:visibility="invisible"
+        />
+
+    <LinearLayout
+        android:id="@+id/lilfr_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lilfr_friendAvatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/timg1"
+            />
+
+        <TextView
+            android:id="@+id/lilfr_friendNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            />
+        <Button
+            android:id="@+id/lilfr_agreeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:text="同意"
+            />
+        <TextView
+            android:id="@+id/lilfr_agreeTv"
+            android:text="已同意"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+
+</LinearLayout>

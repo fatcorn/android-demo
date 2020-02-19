@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.den.demo.R;
 import com.den.demo.model.Message;
-import com.den.demo.model.MessageItem;
 
 import java.util.List;
 import java.util.Random;
@@ -77,7 +76,7 @@ public class ChatWindowDataAdapter extends BaseAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.chat_window_list_item_layout, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout_chat_window, null);
             viewHolder.leftIvAvatar =  convertView.findViewById(R.id.chatWindowLeftAvatar);
             viewHolder.rightIvAvatar =  convertView.findViewById(R.id.chatWindowRightAvatar);
             viewHolder.messageLeftTextView = convertView.findViewById(R.id.chatWindowLeftText);

@@ -13,8 +13,10 @@ public class FriendRequestMessageHandler extends ProtocolAdapter {
     @Override
     void doProcess(Protocol.message message) throws InvalidProtocolBufferException {
         //收到请求，发送响应
+        ResponseMessageHandler.SendResponse(message.getHeader().getSeq(), Protocol.message.Response_Type.NONE);
 
-        //收到请求，界面展示，监听用户操作
+        //收到添加请求，发送通知显示
+
     }
 
     /**

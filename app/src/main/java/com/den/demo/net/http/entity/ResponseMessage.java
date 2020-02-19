@@ -1,4 +1,4 @@
-package com.den.demo.net.entity;
+package com.den.demo.net.http.entity;
 
 import lombok.Data;
 
@@ -10,4 +10,6 @@ public class ResponseMessage {
     private String message;
 
     private Object data;
+
+    private boolean success;
 }

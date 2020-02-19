@@ -164,7 +164,7 @@ public class ProtocolHandler {
                         //如果流中还有报文,拷贝出来，再清空字节缓存流
                         if(leftByte.length > 0) {
                             //拷贝出流中剩余字节
-                            System.arraycopy(streamByte,streamByte.length - 4 - messageLength,leftByte,0,leftByte.length);
+                            System.arraycopy(streamByte, 4 + messageLength,leftByte ,0,leftByte.length);
                             //清空缓存区,并将未处理报文写入
                             bufferStream.reset();
                             bufferStream.write(leftByte,0, leftByte.length);

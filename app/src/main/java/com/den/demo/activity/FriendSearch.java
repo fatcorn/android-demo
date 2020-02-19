@@ -3,19 +3,17 @@ package com.den.demo.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
-import com.den.demo.LoginActivity;
 import com.den.demo.R;
-import com.den.demo.net.NetServiceHandler;
-import com.den.demo.net.entity.ResponseMessage;
+import com.den.demo.net.http.NetServiceHandler;
+import com.den.demo.net.http.entity.ResponseMessage;
+import com.den.demo.net.http.entity.UserInfoVo;
 import com.google.gson.Gson;
 
 import java.io.IOException;

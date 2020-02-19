@@ -2,18 +2,15 @@ package com.den.demo.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.den.demo.R;
-import com.den.demo.net.entity.UserInfoVo;
+import com.den.demo.net.http.entity.UserInfoVo;
 import com.den.demo.net.protocol.FriendRequestMessageHandler;
 import com.google.gson.Gson;
-
-import java.util.Map;
 
 public class UserInfoActivity extends AppCompatActivity {
     //头像

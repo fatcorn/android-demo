@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.ChatWindowActivity"></activity>
+        <activity android:name=".activity.RequestHistoryActivity"></activity>
+        <activity android:name=".activity.ChatWindowActivity" />
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.FriendSearch" />
 

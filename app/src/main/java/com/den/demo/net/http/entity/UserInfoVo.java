@@ -1,4 +1,4 @@
-package com.den.demo.net.entity;
+package com.den.demo.net.http.entity;
 
 import lombok.Data;
 

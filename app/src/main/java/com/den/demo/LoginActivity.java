@@ -1,32 +1,27 @@
 package com.den.demo;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.den.demo.activity.HomePageActivity;
-import com.den.demo.net.NetServiceHandler;
-import com.den.demo.net.entity.ResponseMessage;
-import com.den.demo.net.entity.UserInfoVo;
+import com.den.demo.database.AppDatabase;
+import com.den.demo.net.http.NetServiceHandler;
+import com.den.demo.net.http.entity.ResponseMessage;
+import com.den.demo.net.http.entity.UserInfoVo;
 import com.den.demo.net.protocol.ProtocolHandler;
 import com.den.demo.util.NotificationUtil;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 
-import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.IOException;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -48,6 +43,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // 创建通知渠道
         NotificationUtil.createNotificationChannel();
+
+        // 创建数据库
+        AppDatabase.getInstance(getApplicationContext());
+
 
         //如果有token,跳转到主页
         SharedPreferences preferences = context.getSharedPreferences("data",MODE_PRIVATE);
