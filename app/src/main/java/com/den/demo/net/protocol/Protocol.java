@@ -35,7 +35,7 @@ public final class Protocol {
      * <code>.protocol.message.Header header = 1;</code>
      * @return The header.
      */
-    com.den.demo.net.protocol.Protocol.message.Header getHeader();
+    message.Header getHeader();
     /**
      * <pre>
      * 消息头
@@ -43,11 +43,11 @@ public final class Protocol {
      *
      * <code>.protocol.message.Header header = 1;</code>
      */
-    com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder getHeaderOrBuilder();
+    message.HeaderOrBuilder getHeaderOrBuilder();
 
     /**
      * <pre>
-     *body
+     * body
      * </pre>
      *
      * <code>bytes body = 2;</code>
@@ -71,14 +71,14 @@ public final class Protocol {
       body_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    @java.lang.Override
+    @Override
     @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
+    protected Object newInstance(
         UnusedPrivateParameter unused) {
       return new message();
     }
 
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -89,7 +89,7 @@ public final class Protocol {
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException();
       }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -102,11 +102,11 @@ public final class Protocol {
               done = true;
               break;
             case 10: {
-              com.den.demo.net.protocol.Protocol.message.Header.Builder subBuilder = null;
+              Header.Builder subBuilder = null;
               if (header_ != null) {
                 subBuilder = header_.toBuilder();
               }
-              header_ = input.readMessage(com.den.demo.net.protocol.Protocol.message.Header.parser(), extensionRegistry);
+              header_ = input.readMessage(Header.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(header_);
                 header_ = subBuilder.buildPartial();
@@ -140,15 +140,15 @@ public final class Protocol {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_descriptor;
+      return Protocol.internal_static_protocol_message_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    @Override
+    protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_fieldAccessorTable
+      return Protocol.internal_static_protocol_message_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.den.demo.net.protocol.Protocol.message.class, com.den.demo.net.protocol.Protocol.message.Builder.class);
+              message.class, Builder.class);
     }
 
     /**
@@ -231,7 +231,7 @@ public final class Protocol {
 
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
+          throw new IllegalArgumentException(
               "Can't get the number of an unknown enum value.");
         }
         return value;
@@ -242,7 +242,7 @@ public final class Protocol {
        * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
-      @java.lang.Deprecated
+      @Deprecated
       public static Chat_Message_Type valueOf(int value) {
         return forNumber(value);
       }
@@ -283,7 +283,7 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.message.getDescriptor().getEnumTypes().get(0);
+        return message.getDescriptor().getEnumTypes().get(0);
       }
 
       private static final Chat_Message_Type[] VALUES = values();
@@ -291,7 +291,7 @@ public final class Protocol {
       public static Chat_Message_Type valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
+          throw new IllegalArgumentException(
             "EnumValueDescriptor is not for this type.");
         }
         if (desc.getIndex() == -1) {
@@ -311,7 +311,7 @@ public final class Protocol {
 
     /**
      * <pre>
-     * 响应消息类型enum
+     * 响应消息类型enum,表示希望对方干什么
      * </pre>
      *
      * Protobuf enum {@code protocol.message.Response_Type}
@@ -320,7 +320,7 @@ public final class Protocol {
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
        * <pre>
-       * 通知响应
+       * 通知响应，接收方收到此消息，发送一个通知给发送方（R3）
        * </pre>
        *
        * <code>NOTIFY = 0;</code>
@@ -328,7 +328,7 @@ public final class Protocol {
       NOTIFY(0),
       /**
        * <pre>
-       * 聊天消息响应
+       * 聊天消息响应,对于服务器，发送响应R3,发送通知N2(如R2)。对于客户端(R1)
        * </pre>
        *
        * <code>CHAT = 1;</code>
@@ -336,26 +336,34 @@ public final class Protocol {
       CHAT(1),
       /**
        * <pre>
-       * 主动发送消息响应（只会发送通知）
+       *停止发送通知响应(R4、R5)
        * </pre>
        *
-       * <code>PUSH = 2;</code>
+       * <code>STOP_NOTIFY = 2;</code>
        */
-      PUSH(2),
+      STOP_NOTIFY(2),
+      /**
+       * <pre>
+       * 修改好友申请记录发送状态
+       * </pre>
+       *
+       * <code>CHANGE_REQUEST_STATUS = 3;</code>
+       */
+      CHANGE_REQUEST_STATUS(3),
       /**
        * <pre>
        * 无操作响应，比如Login 的响应
        * </pre>
        *
-       * <code>NONE = 3;</code>
+       * <code>NONE = 4;</code>
        */
-      NONE(3),
+      NONE(4),
       UNRECOGNIZED(-1),
       ;
 
       /**
        * <pre>
-       * 通知响应
+       * 通知响应，接收方收到此消息，发送一个通知给发送方（R3）
        * </pre>
        *
        * <code>NOTIFY = 0;</code>
@@ -363,7 +371,7 @@ public final class Protocol {
       public static final int NOTIFY_VALUE = 0;
       /**
        * <pre>
-       * 聊天消息响应
+       * 聊天消息响应,对于服务器，发送响应R3,发送通知N2(如R2)。对于客户端(R1)
        * </pre>
        *
        * <code>CHAT = 1;</code>
@@ -371,25 +379,33 @@ public final class Protocol {
       public static final int CHAT_VALUE = 1;
       /**
        * <pre>
-       * 主动发送消息响应（只会发送通知）
+       *停止发送通知响应(R4、R5)
        * </pre>
        *
-       * <code>PUSH = 2;</code>
+       * <code>STOP_NOTIFY = 2;</code>
        */
-      public static final int PUSH_VALUE = 2;
+      public static final int STOP_NOTIFY_VALUE = 2;
+      /**
+       * <pre>
+       * 修改好友申请记录发送状态
+       * </pre>
+       *
+       * <code>CHANGE_REQUEST_STATUS = 3;</code>
+       */
+      public static final int CHANGE_REQUEST_STATUS_VALUE = 3;
       /**
        * <pre>
        * 无操作响应，比如Login 的响应
        * </pre>
        *
-       * <code>NONE = 3;</code>
+       * <code>NONE = 4;</code>
        */
-      public static final int NONE_VALUE = 3;
+      public static final int NONE_VALUE = 4;
 
 
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
+          throw new IllegalArgumentException(
               "Can't get the number of an unknown enum value.");
         }
         return value;
@@ -400,7 +416,7 @@ public final class Protocol {
        * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
-      @java.lang.Deprecated
+      @Deprecated
       public static Response_Type valueOf(int value) {
         return forNumber(value);
       }
@@ -413,8 +429,9 @@ public final class Protocol {
         switch (value) {
           case 0: return NOTIFY;
           case 1: return CHAT;
-          case 2: return PUSH;
-          case 3: return NONE;
+          case 2: return STOP_NOTIFY;
+          case 3: return CHANGE_REQUEST_STATUS;
+          case 4: return NONE;
           default: return null;
         }
       }
@@ -441,7 +458,7 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.message.getDescriptor().getEnumTypes().get(1);
+        return message.getDescriptor().getEnumTypes().get(1);
       }
 
       private static final Response_Type[] VALUES = values();
@@ -449,7 +466,7 @@ public final class Protocol {
       public static Response_Type valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
+          throw new IllegalArgumentException(
             "EnumValueDescriptor is not for this type.");
         }
         if (desc.getIndex() == -1) {
@@ -479,7 +496,7 @@ public final class Protocol {
        * <code>string content = 1;</code>
        * @return The content.
        */
-      java.lang.String getContent();
+      String getContent();
       /**
        * <pre>
        *消息类容
@@ -508,7 +525,7 @@ public final class Protocol {
        * <code>.protocol.message.Chat_Message_Type type = 2;</code>
        * @return The type.
        */
-      com.den.demo.net.protocol.Protocol.message.Chat_Message_Type getType();
+      Chat_Message_Type getType();
 
       /**
        * <pre>
@@ -551,14 +568,14 @@ public final class Protocol {
         type_ = 0;
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Chat_Message();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -569,7 +586,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -582,7 +599,7 @@ public final class Protocol {
                 done = true;
                 break;
               case 10: {
-                java.lang.String s = input.readStringRequireUtf8();
+                String s = input.readStringRequireUtf8();
 
                 content_ = s;
                 break;
@@ -624,19 +641,19 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Chat_Message_descriptor;
+        return Protocol.internal_static_protocol_message_Chat_Message_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Chat_Message_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Chat_Message_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Chat_Message.class, com.den.demo.net.protocol.Protocol.message.Chat_Message.Builder.class);
+                Chat_Message.class, Builder.class);
       }
 
       public static final int CONTENT_FIELD_NUMBER = 1;
-      private volatile java.lang.Object content_;
+      private volatile Object content_;
       /**
        * <pre>
        *消息类容
@@ -645,14 +662,14 @@ public final class Protocol {
        * <code>string content = 1;</code>
        * @return The content.
        */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
+      public String getContent() {
+        Object ref = content_;
+        if (ref instanceof String) {
+          return (String) ref;
         } else {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           content_ = s;
           return s;
         }
@@ -667,11 +684,11 @@ public final class Protocol {
        */
       public com.google.protobuf.ByteString
           getContentBytes() {
-        java.lang.Object ref = content_;
-        if (ref instanceof java.lang.String) {
+        Object ref = content_;
+        if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           content_ = b;
           return b;
         } else {
@@ -700,10 +717,10 @@ public final class Protocol {
        * <code>.protocol.message.Chat_Message_Type type = 2;</code>
        * @return The type.
        */
-      public com.den.demo.net.protocol.Protocol.message.Chat_Message_Type getType() {
+      public Chat_Message_Type getType() {
         @SuppressWarnings("deprecation")
-        com.den.demo.net.protocol.Protocol.message.Chat_Message_Type result = com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.valueOf(type_);
-        return result == null ? com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.UNRECOGNIZED : result;
+        Chat_Message_Type result = Chat_Message_Type.valueOf(type_);
+        return result == null ? Chat_Message_Type.UNRECOGNIZED : result;
       }
 
       public static final int SEND_TO_FIELD_NUMBER = 3;
@@ -735,7 +752,7 @@ public final class Protocol {
       }
 
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -745,13 +762,13 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getContentBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 1, content_);
         }
-        if (type_ != com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.TEXT.getNumber()) {
+        if (type_ != Chat_Message_Type.TEXT.getNumber()) {
           output.writeEnum(2, type_);
         }
         if (sendTo_ != 0L) {
@@ -763,7 +780,7 @@ public final class Protocol {
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -772,7 +789,7 @@ public final class Protocol {
         if (!getContentBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, content_);
         }
-        if (type_ != com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.TEXT.getNumber()) {
+        if (type_ != Chat_Message_Type.TEXT.getNumber()) {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(2, type_);
         }
@@ -789,15 +806,15 @@ public final class Protocol {
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Chat_Message)) {
+        if (!(obj instanceof Chat_Message)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Chat_Message other = (com.den.demo.net.protocol.Protocol.message.Chat_Message) obj;
+        Chat_Message other = (Chat_Message) obj;
 
         if (!getContent()
             .equals(other.getContent())) return false;
@@ -810,7 +827,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -832,69 +849,69 @@ public final class Protocol {
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(byte[] data)
+      public static Chat_Message parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(java.io.InputStream input)
+      public static Chat_Message parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseDelimitedFrom(java.io.InputStream input)
+      public static Chat_Message parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseDelimitedFrom(
+      public static Chat_Message parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message parseFrom(
+      public static Chat_Message parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -902,23 +919,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Chat_Message prototype) {
+      public static Builder newBuilder(Chat_Message prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -932,18 +949,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Chat_Message)
-          com.den.demo.net.protocol.Protocol.message.Chat_MessageOrBuilder {
+          Chat_MessageOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Chat_Message_descriptor;
+          return Protocol.internal_static_protocol_message_Chat_Message_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Chat_Message_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Chat_Message_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Chat_Message.class, com.den.demo.net.protocol.Protocol.message.Chat_Message.Builder.class);
+                  Chat_Message.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Chat_Message.newBuilder()
@@ -952,7 +969,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -961,7 +978,7 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           content_ = "";
@@ -975,29 +992,29 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Chat_Message_descriptor;
+          return Protocol.internal_static_protocol_message_Chat_Message_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Chat_Message getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Chat_Message.getDefaultInstance();
+        @Override
+        public Chat_Message getDefaultInstanceForType() {
+          return Chat_Message.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Chat_Message build() {
-          com.den.demo.net.protocol.Protocol.message.Chat_Message result = buildPartial();
+        @Override
+        public Chat_Message build() {
+          Chat_Message result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Chat_Message buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Chat_Message result = new com.den.demo.net.protocol.Protocol.message.Chat_Message(this);
+        @Override
+        public Chat_Message buildPartial() {
+          Chat_Message result = new Chat_Message(this);
           result.content_ = content_;
           result.type_ = type_;
           result.sendTo_ = sendTo_;
@@ -1006,50 +1023,50 @@ public final class Protocol {
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Chat_Message) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Chat_Message)other);
+          if (other instanceof Chat_Message) {
+            return mergeFrom((Chat_Message)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Chat_Message other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Chat_Message.getDefaultInstance()) return this;
+        public Builder mergeFrom(Chat_Message other) {
+          if (other == Chat_Message.getDefaultInstance()) return this;
           if (!other.getContent().isEmpty()) {
             content_ = other.content_;
             onChanged();
@@ -1068,21 +1085,21 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Chat_Message parsedMessage = null;
+          Chat_Message parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Chat_Message) e.getUnfinishedMessage();
+            parsedMessage = (Chat_Message) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -1092,7 +1109,7 @@ public final class Protocol {
           return this;
         }
 
-        private java.lang.Object content_ = "";
+        private Object content_ = "";
         /**
          * <pre>
          *消息类容
@@ -1101,16 +1118,16 @@ public final class Protocol {
          * <code>string content = 1;</code>
          * @return The content.
          */
-        public java.lang.String getContent() {
-          java.lang.Object ref = content_;
-          if (!(ref instanceof java.lang.String)) {
+        public String getContent() {
+          Object ref = content_;
+          if (!(ref instanceof String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
+            String s = bs.toStringUtf8();
             content_ = s;
             return s;
           } else {
-            return (java.lang.String) ref;
+            return (String) ref;
           }
         }
         /**
@@ -1123,11 +1140,11 @@ public final class Protocol {
          */
         public com.google.protobuf.ByteString
             getContentBytes() {
-          java.lang.Object ref = content_;
+          Object ref = content_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
+                    (String) ref);
             content_ = b;
             return b;
           } else {
@@ -1144,7 +1161,7 @@ public final class Protocol {
          * @return This builder for chaining.
          */
         public Builder setContent(
-            java.lang.String value) {
+            String value) {
           if (value == null) {
     throw new NullPointerException();
   }
@@ -1222,10 +1239,10 @@ public final class Protocol {
          * <code>.protocol.message.Chat_Message_Type type = 2;</code>
          * @return The type.
          */
-        public com.den.demo.net.protocol.Protocol.message.Chat_Message_Type getType() {
+        public Chat_Message_Type getType() {
           @SuppressWarnings("deprecation")
-          com.den.demo.net.protocol.Protocol.message.Chat_Message_Type result = com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.valueOf(type_);
-          return result == null ? com.den.demo.net.protocol.Protocol.message.Chat_Message_Type.UNRECOGNIZED : result;
+          Chat_Message_Type result = Chat_Message_Type.valueOf(type_);
+          return result == null ? Chat_Message_Type.UNRECOGNIZED : result;
         }
         /**
          * <pre>
@@ -1236,7 +1253,7 @@ public final class Protocol {
          * @param value The type to set.
          * @return This builder for chaining.
          */
-        public Builder setType(com.den.demo.net.protocol.Protocol.message.Chat_Message_Type value) {
+        public Builder setType(Chat_Message_Type value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -1343,13 +1360,13 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -1360,18 +1377,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Chat_Message)
-      private static final com.den.demo.net.protocol.Protocol.message.Chat_Message DEFAULT_INSTANCE;
+      private static final Chat_Message DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Chat_Message();
+        DEFAULT_INSTANCE = new Chat_Message();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Chat_Message getDefaultInstance() {
+      public static Chat_Message getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Chat_Message>
           PARSER = new com.google.protobuf.AbstractParser<Chat_Message>() {
-        @java.lang.Override
+        @Override
         public Chat_Message parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1384,13 +1401,13 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Chat_Message> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Chat_Message getDefaultInstanceForType() {
+      @Override
+      public Chat_Message getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -1419,6 +1436,16 @@ public final class Protocol {
        * @return The applyTo.
        */
       long getApplyTo();
+
+      /**
+       * <pre>
+       * 好友请求记录id
+       * </pre>
+       *
+       * <code>int64 records_id = 3;</code>
+       * @return The recordsId.
+       */
+      long getRecordsId();
     }
     /**
      * <pre>
@@ -1439,14 +1466,14 @@ public final class Protocol {
       private Friend_Request() {
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Friend_Request();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -1457,7 +1484,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1477,6 +1504,11 @@ public final class Protocol {
               case 16: {
 
                 applyTo_ = input.readInt64();
+                break;
+              }
+              case 24: {
+
+                recordsId_ = input.readInt64();
                 break;
               }
               default: {
@@ -1500,15 +1532,15 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Friend_Request_descriptor;
+        return Protocol.internal_static_protocol_message_Friend_Request_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Friend_Request_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Friend_Request_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Friend_Request.class, com.den.demo.net.protocol.Protocol.message.Friend_Request.Builder.class);
+                Friend_Request.class, Builder.class);
       }
 
       public static final int APPLY_FROM_FIELD_NUMBER = 1;
@@ -1539,8 +1571,22 @@ public final class Protocol {
         return applyTo_;
       }
 
+      public static final int RECORDS_ID_FIELD_NUMBER = 3;
+      private long recordsId_;
+      /**
+       * <pre>
+       * 好友请求记录id
+       * </pre>
+       *
+       * <code>int64 records_id = 3;</code>
+       * @return The recordsId.
+       */
+      public long getRecordsId() {
+        return recordsId_;
+      }
+
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -1550,7 +1596,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (applyFrom_ != 0L) {
@@ -1559,10 +1605,13 @@ public final class Protocol {
         if (applyTo_ != 0L) {
           output.writeInt64(2, applyTo_);
         }
+        if (recordsId_ != 0L) {
+          output.writeInt64(3, recordsId_);
+        }
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -1576,30 +1625,36 @@ public final class Protocol {
           size += com.google.protobuf.CodedOutputStream
             .computeInt64Size(2, applyTo_);
         }
+        if (recordsId_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(3, recordsId_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Friend_Request)) {
+        if (!(obj instanceof Friend_Request)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Friend_Request other = (com.den.demo.net.protocol.Protocol.message.Friend_Request) obj;
+        Friend_Request other = (Friend_Request) obj;
 
         if (getApplyFrom()
             != other.getApplyFrom()) return false;
         if (getApplyTo()
             != other.getApplyTo()) return false;
+        if (getRecordsId()
+            != other.getRecordsId()) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -1612,74 +1667,77 @@ public final class Protocol {
         hash = (37 * hash) + APPLY_TO_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getApplyTo());
+        hash = (37 * hash) + RECORDS_ID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getRecordsId());
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(byte[] data)
+      public static Friend_Request parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(java.io.InputStream input)
+      public static Friend_Request parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseDelimitedFrom(java.io.InputStream input)
+      public static Friend_Request parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseDelimitedFrom(
+      public static Friend_Request parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request parseFrom(
+      public static Friend_Request parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -1687,23 +1745,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Friend_Request prototype) {
+      public static Builder newBuilder(Friend_Request prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -1717,18 +1775,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Friend_Request)
-          com.den.demo.net.protocol.Protocol.message.Friend_RequestOrBuilder {
+          Friend_RequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Friend_Request_descriptor;
+          return Protocol.internal_static_protocol_message_Friend_Request_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Friend_Request_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Friend_Request_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Friend_Request.class, com.den.demo.net.protocol.Protocol.message.Friend_Request.Builder.class);
+                  Friend_Request.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Friend_Request.newBuilder()
@@ -1737,7 +1795,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -1746,115 +1804,121 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           applyFrom_ = 0L;
 
           applyTo_ = 0L;
 
+          recordsId_ = 0L;
+
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Friend_Request_descriptor;
+          return Protocol.internal_static_protocol_message_Friend_Request_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Friend_Request getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Friend_Request.getDefaultInstance();
+        @Override
+        public Friend_Request getDefaultInstanceForType() {
+          return Friend_Request.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Friend_Request build() {
-          com.den.demo.net.protocol.Protocol.message.Friend_Request result = buildPartial();
+        @Override
+        public Friend_Request build() {
+          Friend_Request result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Friend_Request buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Friend_Request result = new com.den.demo.net.protocol.Protocol.message.Friend_Request(this);
+        @Override
+        public Friend_Request buildPartial() {
+          Friend_Request result = new Friend_Request(this);
           result.applyFrom_ = applyFrom_;
           result.applyTo_ = applyTo_;
+          result.recordsId_ = recordsId_;
           onBuilt();
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Friend_Request) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Friend_Request)other);
+          if (other instanceof Friend_Request) {
+            return mergeFrom((Friend_Request)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Friend_Request other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Friend_Request.getDefaultInstance()) return this;
+        public Builder mergeFrom(Friend_Request other) {
+          if (other == Friend_Request.getDefaultInstance()) return this;
           if (other.getApplyFrom() != 0L) {
             setApplyFrom(other.getApplyFrom());
           }
           if (other.getApplyTo() != 0L) {
             setApplyTo(other.getApplyTo());
           }
+          if (other.getRecordsId() != 0L) {
+            setRecordsId(other.getRecordsId());
+          }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Friend_Request parsedMessage = null;
+          Friend_Request parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Friend_Request) e.getUnfinishedMessage();
+            parsedMessage = (Friend_Request) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -1947,13 +2011,55 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+
+        private long recordsId_ ;
+        /**
+         * <pre>
+         * 好友请求记录id
+         * </pre>
+         *
+         * <code>int64 records_id = 3;</code>
+         * @return The recordsId.
+         */
+        public long getRecordsId() {
+          return recordsId_;
+        }
+        /**
+         * <pre>
+         * 好友请求记录id
+         * </pre>
+         *
+         * <code>int64 records_id = 3;</code>
+         * @param value The recordsId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setRecordsId(long value) {
+          
+          recordsId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 好友请求记录id
+         * </pre>
+         *
+         * <code>int64 records_id = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearRecordsId() {
+          
+          recordsId_ = 0L;
+          onChanged();
+          return this;
+        }
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -1964,18 +2070,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Friend_Request)
-      private static final com.den.demo.net.protocol.Protocol.message.Friend_Request DEFAULT_INSTANCE;
+      private static final Friend_Request DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Friend_Request();
+        DEFAULT_INSTANCE = new Friend_Request();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Friend_Request getDefaultInstance() {
+      public static Friend_Request getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Friend_Request>
           PARSER = new com.google.protobuf.AbstractParser<Friend_Request>() {
-        @java.lang.Override
+        @Override
         public Friend_Request parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1988,13 +2094,13 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Friend_Request> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Friend_Request getDefaultInstanceForType() {
+      @Override
+      public Friend_Request getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -2008,7 +2114,7 @@ public final class Protocol {
        * <code>string token = 1;</code>
        * @return The token.
        */
-      java.lang.String getToken();
+      String getToken();
       /**
        * <code>string token = 1;</code>
        * @return The bytes for token.
@@ -2036,14 +2142,14 @@ public final class Protocol {
         token_ = "";
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Login();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -2054,7 +2160,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2067,7 +2173,7 @@ public final class Protocol {
                 done = true;
                 break;
               case 10: {
-                java.lang.String s = input.readStringRequireUtf8();
+                String s = input.readStringRequireUtf8();
 
                 token_ = s;
                 break;
@@ -2093,31 +2199,31 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Login_descriptor;
+        return Protocol.internal_static_protocol_message_Login_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Login_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Login_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Login.class, com.den.demo.net.protocol.Protocol.message.Login.Builder.class);
+                Login.class, Builder.class);
       }
 
       public static final int TOKEN_FIELD_NUMBER = 1;
-      private volatile java.lang.Object token_;
+      private volatile Object token_;
       /**
        * <code>string token = 1;</code>
        * @return The token.
        */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
+      public String getToken() {
+        Object ref = token_;
+        if (ref instanceof String) {
+          return (String) ref;
         } else {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           token_ = s;
           return s;
         }
@@ -2128,11 +2234,11 @@ public final class Protocol {
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof java.lang.String) {
+        Object ref = token_;
+        if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           token_ = b;
           return b;
         } else {
@@ -2141,7 +2247,7 @@ public final class Protocol {
       }
 
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -2151,7 +2257,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getTokenBytes().isEmpty()) {
@@ -2160,7 +2266,7 @@ public final class Protocol {
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -2174,15 +2280,15 @@ public final class Protocol {
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Login)) {
+        if (!(obj instanceof Login)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Login other = (com.den.demo.net.protocol.Protocol.message.Login) obj;
+        Login other = (Login) obj;
 
         if (!getToken()
             .equals(other.getToken())) return false;
@@ -2190,7 +2296,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -2204,69 +2310,69 @@ public final class Protocol {
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(byte[] data)
+      public static Login parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(java.io.InputStream input)
+      public static Login parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseDelimitedFrom(java.io.InputStream input)
+      public static Login parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseDelimitedFrom(
+      public static Login parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Login parseFrom(
+      public static Login parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -2274,23 +2380,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Login prototype) {
+      public static Builder newBuilder(Login prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -2304,18 +2410,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Login)
-          com.den.demo.net.protocol.Protocol.message.LoginOrBuilder {
+          LoginOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Login_descriptor;
+          return Protocol.internal_static_protocol_message_Login_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Login_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Login_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Login.class, com.den.demo.net.protocol.Protocol.message.Login.Builder.class);
+                  Login.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Login.newBuilder()
@@ -2324,7 +2430,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -2333,7 +2439,7 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           token_ = "";
@@ -2341,78 +2447,78 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Login_descriptor;
+          return Protocol.internal_static_protocol_message_Login_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Login getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Login.getDefaultInstance();
+        @Override
+        public Login getDefaultInstanceForType() {
+          return Login.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Login build() {
-          com.den.demo.net.protocol.Protocol.message.Login result = buildPartial();
+        @Override
+        public Login build() {
+          Login result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Login buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Login result = new com.den.demo.net.protocol.Protocol.message.Login(this);
+        @Override
+        public Login buildPartial() {
+          Login result = new Login(this);
           result.token_ = token_;
           onBuilt();
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Login) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Login)other);
+          if (other instanceof Login) {
+            return mergeFrom((Login)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Login other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Login.getDefaultInstance()) return this;
+        public Builder mergeFrom(Login other) {
+          if (other == Login.getDefaultInstance()) return this;
           if (!other.getToken().isEmpty()) {
             token_ = other.token_;
             onChanged();
@@ -2422,21 +2528,21 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Login parsedMessage = null;
+          Login parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Login) e.getUnfinishedMessage();
+            parsedMessage = (Login) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -2446,21 +2552,21 @@ public final class Protocol {
           return this;
         }
 
-        private java.lang.Object token_ = "";
+        private Object token_ = "";
         /**
          * <code>string token = 1;</code>
          * @return The token.
          */
-        public java.lang.String getToken() {
-          java.lang.Object ref = token_;
-          if (!(ref instanceof java.lang.String)) {
+        public String getToken() {
+          Object ref = token_;
+          if (!(ref instanceof String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
+            String s = bs.toStringUtf8();
             token_ = s;
             return s;
           } else {
-            return (java.lang.String) ref;
+            return (String) ref;
           }
         }
         /**
@@ -2469,11 +2575,11 @@ public final class Protocol {
          */
         public com.google.protobuf.ByteString
             getTokenBytes() {
-          java.lang.Object ref = token_;
+          Object ref = token_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
+                    (String) ref);
             token_ = b;
             return b;
           } else {
@@ -2486,7 +2592,7 @@ public final class Protocol {
          * @return This builder for chaining.
          */
         public Builder setToken(
-            java.lang.String value) {
+            String value) {
           if (value == null) {
     throw new NullPointerException();
   }
@@ -2521,13 +2627,13 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -2538,18 +2644,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Login)
-      private static final com.den.demo.net.protocol.Protocol.message.Login DEFAULT_INSTANCE;
+      private static final Login DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Login();
+        DEFAULT_INSTANCE = new Login();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Login getDefaultInstance() {
+      public static Login getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Login>
           PARSER = new com.google.protobuf.AbstractParser<Login>() {
-        @java.lang.Override
+        @Override
         public Login parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2562,13 +2668,13 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Login> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Login getDefaultInstanceForType() {
+      @Override
+      public Login getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -2600,7 +2706,7 @@ public final class Protocol {
 
       /**
        * <pre>
-       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * 响应类型
        * </pre>
        *
        * <code>.protocol.message.Response_Type type = 3;</code>
@@ -2609,13 +2715,33 @@ public final class Protocol {
       int getTypeValue();
       /**
        * <pre>
-       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * 响应类型
        * </pre>
        *
        * <code>.protocol.message.Response_Type type = 3;</code>
        * @return The type.
        */
-      com.den.demo.net.protocol.Protocol.message.Response_Type getType();
+      Response_Type getType();
+
+      /**
+       * <pre>
+       * 响应数据,json 数据
+       * </pre>
+       *
+       * <code>string response_data = 4;</code>
+       * @return The responseData.
+       */
+      String getResponseData();
+      /**
+       * <pre>
+       * 响应数据,json 数据
+       * </pre>
+       *
+       * <code>string response_data = 4;</code>
+       * @return The bytes for responseData.
+       */
+      com.google.protobuf.ByteString
+          getResponseDataBytes();
     }
     /**
      * <pre>
@@ -2635,16 +2761,17 @@ public final class Protocol {
       }
       private Response() {
         type_ = 0;
+        responseData_ = "";
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Response();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -2655,7 +2782,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2683,6 +2810,12 @@ public final class Protocol {
                 type_ = rawValue;
                 break;
               }
+              case 34: {
+                String s = input.readStringRequireUtf8();
+
+                responseData_ = s;
+                break;
+              }
               default: {
                 if (!parseUnknownField(
                     input, unknownFields, extensionRegistry, tag)) {
@@ -2704,15 +2837,15 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+        return Protocol.internal_static_protocol_message_Response_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Response_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Response.class, com.den.demo.net.protocol.Protocol.message.Response.Builder.class);
+                Response.class, Builder.class);
       }
 
       public static final int ACK_FIELD_NUMBER = 1;
@@ -2747,7 +2880,7 @@ public final class Protocol {
       private int type_;
       /**
        * <pre>
-       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * 响应类型
        * </pre>
        *
        * <code>.protocol.message.Response_Type type = 3;</code>
@@ -2758,20 +2891,64 @@ public final class Protocol {
       }
       /**
        * <pre>
-       * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+       * 响应类型
        * </pre>
        *
        * <code>.protocol.message.Response_Type type = 3;</code>
        * @return The type.
        */
-      public com.den.demo.net.protocol.Protocol.message.Response_Type getType() {
+      public Response_Type getType() {
         @SuppressWarnings("deprecation")
-        com.den.demo.net.protocol.Protocol.message.Response_Type result = com.den.demo.net.protocol.Protocol.message.Response_Type.valueOf(type_);
-        return result == null ? com.den.demo.net.protocol.Protocol.message.Response_Type.UNRECOGNIZED : result;
+        Response_Type result = Response_Type.valueOf(type_);
+        return result == null ? Response_Type.UNRECOGNIZED : result;
+      }
+
+      public static final int RESPONSE_DATA_FIELD_NUMBER = 4;
+      private volatile Object responseData_;
+      /**
+       * <pre>
+       * 响应数据,json 数据
+       * </pre>
+       *
+       * <code>string response_data = 4;</code>
+       * @return The responseData.
+       */
+      public String getResponseData() {
+        Object ref = responseData_;
+        if (ref instanceof String) {
+          return (String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          responseData_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * 响应数据,json 数据
+       * </pre>
+       *
+       * <code>string response_data = 4;</code>
+       * @return The bytes for responseData.
+       */
+      public com.google.protobuf.ByteString
+          getResponseDataBytes() {
+        Object ref = responseData_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          responseData_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -2781,7 +2958,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (ack_ != 0L) {
@@ -2790,13 +2967,16 @@ public final class Protocol {
         if (isSuccess_ != false) {
           output.writeBool(2, isSuccess_);
         }
-        if (type_ != com.den.demo.net.protocol.Protocol.message.Response_Type.NOTIFY.getNumber()) {
+        if (type_ != Response_Type.NOTIFY.getNumber()) {
           output.writeEnum(3, type_);
+        }
+        if (!getResponseDataBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, responseData_);
         }
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -2810,35 +2990,40 @@ public final class Protocol {
           size += com.google.protobuf.CodedOutputStream
             .computeBoolSize(2, isSuccess_);
         }
-        if (type_ != com.den.demo.net.protocol.Protocol.message.Response_Type.NOTIFY.getNumber()) {
+        if (type_ != Response_Type.NOTIFY.getNumber()) {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(3, type_);
+        }
+        if (!getResponseDataBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, responseData_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Response)) {
+        if (!(obj instanceof Response)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Response other = (com.den.demo.net.protocol.Protocol.message.Response) obj;
+        Response other = (Response) obj;
 
         if (getAck()
             != other.getAck()) return false;
         if (getIsSuccess()
             != other.getIsSuccess()) return false;
         if (type_ != other.type_) return false;
+        if (!getResponseData()
+            .equals(other.getResponseData())) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -2853,74 +3038,76 @@ public final class Protocol {
             getIsSuccess());
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + type_;
+        hash = (37 * hash) + RESPONSE_DATA_FIELD_NUMBER;
+        hash = (53 * hash) + getResponseData().hashCode();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(byte[] data)
+      public static Response parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(java.io.InputStream input)
+      public static Response parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseDelimitedFrom(java.io.InputStream input)
+      public static Response parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseDelimitedFrom(
+      public static Response parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Response parseFrom(
+      public static Response parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -2928,23 +3115,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Response prototype) {
+      public static Builder newBuilder(Response prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -2958,18 +3145,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Response)
-          com.den.demo.net.protocol.Protocol.message.ResponseOrBuilder {
+          ResponseOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+          return Protocol.internal_static_protocol_message_Response_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Response_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Response.class, com.den.demo.net.protocol.Protocol.message.Response.Builder.class);
+                  Response.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Response.newBuilder()
@@ -2978,7 +3165,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -2987,7 +3174,7 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           ack_ = 0L;
@@ -2996,83 +3183,86 @@ public final class Protocol {
 
           type_ = 0;
 
+          responseData_ = "";
+
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Response_descriptor;
+          return Protocol.internal_static_protocol_message_Response_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Response getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Response.getDefaultInstance();
+        @Override
+        public Response getDefaultInstanceForType() {
+          return Response.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Response build() {
-          com.den.demo.net.protocol.Protocol.message.Response result = buildPartial();
+        @Override
+        public Response build() {
+          Response result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Response buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Response result = new com.den.demo.net.protocol.Protocol.message.Response(this);
+        @Override
+        public Response buildPartial() {
+          Response result = new Response(this);
           result.ack_ = ack_;
           result.isSuccess_ = isSuccess_;
           result.type_ = type_;
+          result.responseData_ = responseData_;
           onBuilt();
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Response) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Response)other);
+          if (other instanceof Response) {
+            return mergeFrom((Response)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Response other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Response.getDefaultInstance()) return this;
+        public Builder mergeFrom(Response other) {
+          if (other == Response.getDefaultInstance()) return this;
           if (other.getAck() != 0L) {
             setAck(other.getAck());
           }
@@ -3082,26 +3272,30 @@ public final class Protocol {
           if (other.type_ != 0) {
             setTypeValue(other.getTypeValue());
           }
+          if (!other.getResponseData().isEmpty()) {
+            responseData_ = other.responseData_;
+            onChanged();
+          }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Response parsedMessage = null;
+          Response parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Response) e.getUnfinishedMessage();
+            parsedMessage = (Response) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -3198,7 +3392,7 @@ public final class Protocol {
         private int type_ = 0;
         /**
          * <pre>
-         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * 响应类型
          * </pre>
          *
          * <code>.protocol.message.Response_Type type = 3;</code>
@@ -3209,7 +3403,7 @@ public final class Protocol {
         }
         /**
          * <pre>
-         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * 响应类型
          * </pre>
          *
          * <code>.protocol.message.Response_Type type = 3;</code>
@@ -3223,27 +3417,27 @@ public final class Protocol {
         }
         /**
          * <pre>
-         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * 响应类型
          * </pre>
          *
          * <code>.protocol.message.Response_Type type = 3;</code>
          * @return The type.
          */
-        public com.den.demo.net.protocol.Protocol.message.Response_Type getType() {
+        public Response_Type getType() {
           @SuppressWarnings("deprecation")
-          com.den.demo.net.protocol.Protocol.message.Response_Type result = com.den.demo.net.protocol.Protocol.message.Response_Type.valueOf(type_);
-          return result == null ? com.den.demo.net.protocol.Protocol.message.Response_Type.UNRECOGNIZED : result;
+          Response_Type result = Response_Type.valueOf(type_);
+          return result == null ? Response_Type.UNRECOGNIZED : result;
         }
         /**
          * <pre>
-         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * 响应类型
          * </pre>
          *
          * <code>.protocol.message.Response_Type type = 3;</code>
          * @param value The type to set.
          * @return This builder for chaining.
          */
-        public Builder setType(com.den.demo.net.protocol.Protocol.message.Response_Type value) {
+        public Builder setType(Response_Type value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -3254,7 +3448,7 @@ public final class Protocol {
         }
         /**
          * <pre>
-         * 响应类型,有发送通知类型（"N"），还有消息发送成功类型，以及聊天消息类型（收到响应，回再发送响应）
+         * 响应类型
          * </pre>
          *
          * <code>.protocol.message.Response_Type type = 3;</code>
@@ -3266,13 +3460,109 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+
+        private Object responseData_ = "";
+        /**
+         * <pre>
+         * 响应数据,json 数据
+         * </pre>
+         *
+         * <code>string response_data = 4;</code>
+         * @return The responseData.
+         */
+        public String getResponseData() {
+          Object ref = responseData_;
+          if (!(ref instanceof String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            responseData_ = s;
+            return s;
+          } else {
+            return (String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * 响应数据,json 数据
+         * </pre>
+         *
+         * <code>string response_data = 4;</code>
+         * @return The bytes for responseData.
+         */
+        public com.google.protobuf.ByteString
+            getResponseDataBytes() {
+          Object ref = responseData_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            responseData_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * 响应数据,json 数据
+         * </pre>
+         *
+         * <code>string response_data = 4;</code>
+         * @param value The responseData to set.
+         * @return This builder for chaining.
+         */
+        public Builder setResponseData(
+            String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          responseData_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 响应数据,json 数据
+         * </pre>
+         *
+         * <code>string response_data = 4;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearResponseData() {
+          
+          responseData_ = getDefaultInstance().getResponseData();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * 响应数据,json 数据
+         * </pre>
+         *
+         * <code>string response_data = 4;</code>
+         * @param value The bytes for responseData to set.
+         * @return This builder for chaining.
+         */
+        public Builder setResponseDataBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          responseData_ = value;
+          onChanged();
+          return this;
+        }
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -3283,18 +3573,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Response)
-      private static final com.den.demo.net.protocol.Protocol.message.Response DEFAULT_INSTANCE;
+      private static final Response DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Response();
+        DEFAULT_INSTANCE = new Response();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Response getDefaultInstance() {
+      public static Response getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Response>
           PARSER = new com.google.protobuf.AbstractParser<Response>() {
-        @java.lang.Override
+        @Override
         public Response parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3307,13 +3597,13 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Response> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Response getDefaultInstanceForType() {
+      @Override
+      public Response getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -3352,14 +3642,14 @@ public final class Protocol {
       private Notify() {
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Notify();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -3370,7 +3660,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3408,15 +3698,15 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+        return Protocol.internal_static_protocol_message_Notify_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Notify.class, com.den.demo.net.protocol.Protocol.message.Notify.Builder.class);
+                Notify.class, Builder.class);
       }
 
       public static final int SEQ_FIELD_NUMBER = 1;
@@ -3434,7 +3724,7 @@ public final class Protocol {
       }
 
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -3444,7 +3734,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (seq_ != 0L) {
@@ -3453,7 +3743,7 @@ public final class Protocol {
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -3468,15 +3758,15 @@ public final class Protocol {
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Notify)) {
+        if (!(obj instanceof Notify)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Notify other = (com.den.demo.net.protocol.Protocol.message.Notify) obj;
+        Notify other = (Notify) obj;
 
         if (getSeq()
             != other.getSeq()) return false;
@@ -3484,7 +3774,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -3499,69 +3789,69 @@ public final class Protocol {
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(byte[] data)
+      public static Notify parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(java.io.InputStream input)
+      public static Notify parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseDelimitedFrom(java.io.InputStream input)
+      public static Notify parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseDelimitedFrom(
+      public static Notify parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Notify parseFrom(
+      public static Notify parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -3569,23 +3859,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Notify prototype) {
+      public static Builder newBuilder(Notify prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -3599,18 +3889,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Notify)
-          com.den.demo.net.protocol.Protocol.message.NotifyOrBuilder {
+          NotifyOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+          return Protocol.internal_static_protocol_message_Notify_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Notify_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Notify.class, com.den.demo.net.protocol.Protocol.message.Notify.Builder.class);
+                  Notify.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Notify.newBuilder()
@@ -3619,7 +3909,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -3628,7 +3918,7 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           seq_ = 0L;
@@ -3636,78 +3926,78 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Notify_descriptor;
+          return Protocol.internal_static_protocol_message_Notify_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Notify.getDefaultInstance();
+        @Override
+        public Notify getDefaultInstanceForType() {
+          return Notify.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Notify build() {
-          com.den.demo.net.protocol.Protocol.message.Notify result = buildPartial();
+        @Override
+        public Notify build() {
+          Notify result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Notify buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Notify result = new com.den.demo.net.protocol.Protocol.message.Notify(this);
+        @Override
+        public Notify buildPartial() {
+          Notify result = new Notify(this);
           result.seq_ = seq_;
           onBuilt();
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Notify) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Notify)other);
+          if (other instanceof Notify) {
+            return mergeFrom((Notify)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Notify other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Notify.getDefaultInstance()) return this;
+        public Builder mergeFrom(Notify other) {
+          if (other == Notify.getDefaultInstance()) return this;
           if (other.getSeq() != 0L) {
             setSeq(other.getSeq());
           }
@@ -3716,21 +4006,21 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Notify parsedMessage = null;
+          Notify parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Notify) e.getUnfinishedMessage();
+            parsedMessage = (Notify) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -3781,13 +4071,13 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -3798,18 +4088,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Notify)
-      private static final com.den.demo.net.protocol.Protocol.message.Notify DEFAULT_INSTANCE;
+      private static final Notify DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Notify();
+        DEFAULT_INSTANCE = new Notify();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstance() {
+      public static Notify getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Notify>
           PARSER = new com.google.protobuf.AbstractParser<Notify>() {
-        @java.lang.Override
+        @Override
         public Notify parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3822,13 +4112,13 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Notify> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Notify getDefaultInstanceForType() {
+      @Override
+      public Notify getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -3856,7 +4146,7 @@ public final class Protocol {
        * <code>string message_type = 2;</code>
        * @return The messageType.
        */
-      java.lang.String getMessageType();
+      String getMessageType();
       /**
        * <pre>
        * 消息类型
@@ -3908,14 +4198,14 @@ public final class Protocol {
         messageType_ = "";
       }
 
-      @java.lang.Override
+      @Override
       @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
+      protected Object newInstance(
           UnusedPrivateParameter unused) {
         return new Header();
       }
 
-      @java.lang.Override
+      @Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -3926,7 +4216,7 @@ public final class Protocol {
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3944,7 +4234,7 @@ public final class Protocol {
                 break;
               }
               case 18: {
-                java.lang.String s = input.readStringRequireUtf8();
+                String s = input.readStringRequireUtf8();
 
                 messageType_ = s;
                 break;
@@ -3980,15 +4270,15 @@ public final class Protocol {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Header_descriptor;
+        return Protocol.internal_static_protocol_message_Header_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Header_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_Header_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.Header.class, com.den.demo.net.protocol.Protocol.message.Header.Builder.class);
+                Header.class, Builder.class);
       }
 
       public static final int PROTOCOL_VERSION_FIELD_NUMBER = 1;
@@ -4006,7 +4296,7 @@ public final class Protocol {
       }
 
       public static final int MESSAGE_TYPE_FIELD_NUMBER = 2;
-      private volatile java.lang.Object messageType_;
+      private volatile Object messageType_;
       /**
        * <pre>
        * 消息类型
@@ -4015,14 +4305,14 @@ public final class Protocol {
        * <code>string message_type = 2;</code>
        * @return The messageType.
        */
-      public java.lang.String getMessageType() {
-        java.lang.Object ref = messageType_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
+      public String getMessageType() {
+        Object ref = messageType_;
+        if (ref instanceof String) {
+          return (String) ref;
         } else {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           messageType_ = s;
           return s;
         }
@@ -4037,11 +4327,11 @@ public final class Protocol {
        */
       public com.google.protobuf.ByteString
           getMessageTypeBytes() {
-        java.lang.Object ref = messageType_;
-        if (ref instanceof java.lang.String) {
+        Object ref = messageType_;
+        if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           messageType_ = b;
           return b;
         } else {
@@ -4078,7 +4368,7 @@ public final class Protocol {
       }
 
       private byte memoizedIsInitialized = -1;
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -4088,7 +4378,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (protocolVersion_ != 0F) {
@@ -4106,7 +4396,7 @@ public final class Protocol {
         unknownFields.writeTo(output);
       }
 
-      @java.lang.Override
+      @Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -4132,18 +4422,18 @@ public final class Protocol {
         return size;
       }
 
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
+      @Override
+      public boolean equals(final Object obj) {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.den.demo.net.protocol.Protocol.message.Header)) {
+        if (!(obj instanceof Header)) {
           return super.equals(obj);
         }
-        com.den.demo.net.protocol.Protocol.message.Header other = (com.den.demo.net.protocol.Protocol.message.Header) obj;
+        Header other = (Header) obj;
 
-        if (java.lang.Float.floatToIntBits(getProtocolVersion())
-            != java.lang.Float.floatToIntBits(
+        if (Float.floatToIntBits(getProtocolVersion())
+            != Float.floatToIntBits(
                 other.getProtocolVersion())) return false;
         if (!getMessageType()
             .equals(other.getMessageType())) return false;
@@ -4155,7 +4445,7 @@ public final class Protocol {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public int hashCode() {
         if (memoizedHashCode != 0) {
           return memoizedHashCode;
@@ -4163,7 +4453,7 @@ public final class Protocol {
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + PROTOCOL_VERSION_FIELD_NUMBER;
-        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+        hash = (53 * hash) + Float.floatToIntBits(
             getProtocolVersion());
         hash = (37 * hash) + MESSAGE_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getMessageType().hashCode();
@@ -4177,69 +4467,69 @@ public final class Protocol {
         return hash;
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(byte[] data)
+      public static Header parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(java.io.InputStream input)
+      public static Header parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseDelimitedFrom(java.io.InputStream input)
+      public static Header parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseDelimitedFrom(
+      public static Header parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.den.demo.net.protocol.Protocol.message.Header parseFrom(
+      public static Header parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -4247,23 +4537,23 @@ public final class Protocol {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      @java.lang.Override
+      @Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message.Header prototype) {
+      public static Builder newBuilder(Header prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
-      @java.lang.Override
+      @Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
-      @java.lang.Override
+      @Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -4277,18 +4567,18 @@ public final class Protocol {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:protocol.message.Header)
-          com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder {
+          HeaderOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Header_descriptor;
+          return Protocol.internal_static_protocol_message_Header_descriptor;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        @Override
+        protected FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Header_fieldAccessorTable
+          return Protocol.internal_static_protocol_message_Header_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.den.demo.net.protocol.Protocol.message.Header.class, com.den.demo.net.protocol.Protocol.message.Header.Builder.class);
+                  Header.class, Builder.class);
         }
 
         // Construct using com.den.demo.net.protocol.Protocol.message.Header.newBuilder()
@@ -4297,7 +4587,7 @@ public final class Protocol {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
@@ -4306,7 +4596,7 @@ public final class Protocol {
                   .alwaysUseFieldBuilders) {
           }
         }
-        @java.lang.Override
+        @Override
         public Builder clear() {
           super.clear();
           protocolVersion_ = 0F;
@@ -4320,29 +4610,29 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_Header_descriptor;
+          return Protocol.internal_static_protocol_message_Header_descriptor;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Header getDefaultInstanceForType() {
-          return com.den.demo.net.protocol.Protocol.message.Header.getDefaultInstance();
+        @Override
+        public Header getDefaultInstanceForType() {
+          return Header.getDefaultInstance();
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Header build() {
-          com.den.demo.net.protocol.Protocol.message.Header result = buildPartial();
+        @Override
+        public Header build() {
+          Header result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        @java.lang.Override
-        public com.den.demo.net.protocol.Protocol.message.Header buildPartial() {
-          com.den.demo.net.protocol.Protocol.message.Header result = new com.den.demo.net.protocol.Protocol.message.Header(this);
+        @Override
+        public Header buildPartial() {
+          Header result = new Header(this);
           result.protocolVersion_ = protocolVersion_;
           result.messageType_ = messageType_;
           result.bodyLength_ = bodyLength_;
@@ -4351,50 +4641,50 @@ public final class Protocol {
           return result;
         }
 
-        @java.lang.Override
+        @Override
         public Builder clone() {
           return super.clone();
         }
-        @java.lang.Override
+        @Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.setField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
           return super.clearField(field);
         }
-        @java.lang.Override
+        @Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
           return super.clearOneof(oneof);
         }
-        @java.lang.Override
+        @Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
+            int index, Object value) {
           return super.setRepeatedField(field, index, value);
         }
-        @java.lang.Override
+        @Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
+            Object value) {
           return super.addRepeatedField(field, value);
         }
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.den.demo.net.protocol.Protocol.message.Header) {
-            return mergeFrom((com.den.demo.net.protocol.Protocol.message.Header)other);
+          if (other instanceof Header) {
+            return mergeFrom((Header)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message.Header other) {
-          if (other == com.den.demo.net.protocol.Protocol.message.Header.getDefaultInstance()) return this;
+        public Builder mergeFrom(Header other) {
+          if (other == Header.getDefaultInstance()) return this;
           if (other.getProtocolVersion() != 0F) {
             setProtocolVersion(other.getProtocolVersion());
           }
@@ -4413,21 +4703,21 @@ public final class Protocol {
           return this;
         }
 
-        @java.lang.Override
+        @Override
         public final boolean isInitialized() {
           return true;
         }
 
-        @java.lang.Override
+        @Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.den.demo.net.protocol.Protocol.message.Header parsedMessage = null;
+          Header parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.den.demo.net.protocol.Protocol.message.Header) e.getUnfinishedMessage();
+            parsedMessage = (Header) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -4479,7 +4769,7 @@ public final class Protocol {
           return this;
         }
 
-        private java.lang.Object messageType_ = "";
+        private Object messageType_ = "";
         /**
          * <pre>
          * 消息类型
@@ -4488,16 +4778,16 @@ public final class Protocol {
          * <code>string message_type = 2;</code>
          * @return The messageType.
          */
-        public java.lang.String getMessageType() {
-          java.lang.Object ref = messageType_;
-          if (!(ref instanceof java.lang.String)) {
+        public String getMessageType() {
+          Object ref = messageType_;
+          if (!(ref instanceof String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
+            String s = bs.toStringUtf8();
             messageType_ = s;
             return s;
           } else {
-            return (java.lang.String) ref;
+            return (String) ref;
           }
         }
         /**
@@ -4510,11 +4800,11 @@ public final class Protocol {
          */
         public com.google.protobuf.ByteString
             getMessageTypeBytes() {
-          java.lang.Object ref = messageType_;
+          Object ref = messageType_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
+                    (String) ref);
             messageType_ = b;
             return b;
           } else {
@@ -4531,7 +4821,7 @@ public final class Protocol {
          * @return This builder for chaining.
          */
         public Builder setMessageType(
-            java.lang.String value) {
+            String value) {
           if (value == null) {
     throw new NullPointerException();
   }
@@ -4658,13 +4948,13 @@ public final class Protocol {
           onChanged();
           return this;
         }
-        @java.lang.Override
+        @Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
-        @java.lang.Override
+        @Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -4675,18 +4965,18 @@ public final class Protocol {
       }
 
       // @@protoc_insertion_point(class_scope:protocol.message.Header)
-      private static final com.den.demo.net.protocol.Protocol.message.Header DEFAULT_INSTANCE;
+      private static final Header DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message.Header();
+        DEFAULT_INSTANCE = new Header();
       }
 
-      public static com.den.demo.net.protocol.Protocol.message.Header getDefaultInstance() {
+      public static Header getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
       private static final com.google.protobuf.Parser<Header>
           PARSER = new com.google.protobuf.AbstractParser<Header>() {
-        @java.lang.Override
+        @Override
         public Header parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4699,20 +4989,20 @@ public final class Protocol {
         return PARSER;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Parser<Header> getParserForType() {
         return PARSER;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message.Header getDefaultInstanceForType() {
+      @Override
+      public Header getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
     public static final int HEADER_FIELD_NUMBER = 1;
-    private com.den.demo.net.protocol.Protocol.message.Header header_;
+    private Header header_;
     /**
      * <pre>
      * 消息头
@@ -4732,8 +5022,8 @@ public final class Protocol {
      * <code>.protocol.message.Header header = 1;</code>
      * @return The header.
      */
-    public com.den.demo.net.protocol.Protocol.message.Header getHeader() {
-      return header_ == null ? com.den.demo.net.protocol.Protocol.message.Header.getDefaultInstance() : header_;
+    public Header getHeader() {
+      return header_ == null ? Header.getDefaultInstance() : header_;
     }
     /**
      * <pre>
@@ -4742,7 +5032,7 @@ public final class Protocol {
      *
      * <code>.protocol.message.Header header = 1;</code>
      */
-    public com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder getHeaderOrBuilder() {
+    public HeaderOrBuilder getHeaderOrBuilder() {
       return getHeader();
     }
 
@@ -4750,7 +5040,7 @@ public final class Protocol {
     private com.google.protobuf.ByteString body_;
     /**
      * <pre>
-     *body
+     * body
      * </pre>
      *
      * <code>bytes body = 2;</code>
@@ -4761,7 +5051,7 @@ public final class Protocol {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
+    @Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4771,7 +5061,7 @@ public final class Protocol {
       return true;
     }
 
-    @java.lang.Override
+    @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (header_ != null) {
@@ -4783,7 +5073,7 @@ public final class Protocol {
       unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
+    @Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4802,15 +5092,15 @@ public final class Protocol {
       return size;
     }
 
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
+    @Override
+    public boolean equals(final Object obj) {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.den.demo.net.protocol.Protocol.message)) {
+      if (!(obj instanceof message)) {
         return super.equals(obj);
       }
-      com.den.demo.net.protocol.Protocol.message other = (com.den.demo.net.protocol.Protocol.message) obj;
+      message other = (message) obj;
 
       if (hasHeader() != other.hasHeader()) return false;
       if (hasHeader()) {
@@ -4823,7 +5113,7 @@ public final class Protocol {
       return true;
     }
 
-    @java.lang.Override
+    @Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -4841,69 +5131,69 @@ public final class Protocol {
       return hash;
     }
 
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(byte[] data)
+    public static message parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(java.io.InputStream input)
+    public static message parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseDelimitedFrom(java.io.InputStream input)
+    public static message parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseDelimitedFrom(
+    public static message parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.den.demo.net.protocol.Protocol.message parseFrom(
+    public static message parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4911,23 +5201,23 @@ public final class Protocol {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
+    @Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.den.demo.net.protocol.Protocol.message prototype) {
+    public static Builder newBuilder(message prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
+    @Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -4937,18 +5227,18 @@ public final class Protocol {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:protocol.message)
-        com.den.demo.net.protocol.Protocol.messageOrBuilder {
+        messageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_descriptor;
+        return Protocol.internal_static_protocol_message_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_fieldAccessorTable
+        return Protocol.internal_static_protocol_message_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.den.demo.net.protocol.Protocol.message.class, com.den.demo.net.protocol.Protocol.message.Builder.class);
+                message.class, Builder.class);
       }
 
       // Construct using com.den.demo.net.protocol.Protocol.message.newBuilder()
@@ -4957,7 +5247,7 @@ public final class Protocol {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
@@ -4966,7 +5256,7 @@ public final class Protocol {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      @Override
       public Builder clear() {
         super.clear();
         if (headerBuilder_ == null) {
@@ -4980,29 +5270,29 @@ public final class Protocol {
         return this;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.den.demo.net.protocol.Protocol.internal_static_protocol_message_descriptor;
+        return Protocol.internal_static_protocol_message_descriptor;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message getDefaultInstanceForType() {
-        return com.den.demo.net.protocol.Protocol.message.getDefaultInstance();
+      @Override
+      public message getDefaultInstanceForType() {
+        return message.getDefaultInstance();
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message build() {
-        com.den.demo.net.protocol.Protocol.message result = buildPartial();
+      @Override
+      public message build() {
+        message result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      @java.lang.Override
-      public com.den.demo.net.protocol.Protocol.message buildPartial() {
-        com.den.demo.net.protocol.Protocol.message result = new com.den.demo.net.protocol.Protocol.message(this);
+      @Override
+      public message buildPartial() {
+        message result = new message(this);
         if (headerBuilder_ == null) {
           result.header_ = header_;
         } else {
@@ -5013,50 +5303,50 @@ public final class Protocol {
         return result;
       }
 
-      @java.lang.Override
+      @Override
       public Builder clone() {
         return super.clone();
       }
-      @java.lang.Override
+      @Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return super.setField(field, value);
       }
-      @java.lang.Override
+      @Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-      @java.lang.Override
+      @Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-      @java.lang.Override
+      @Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
+      @Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return super.addRepeatedField(field, value);
       }
-      @java.lang.Override
+      @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.den.demo.net.protocol.Protocol.message) {
-          return mergeFrom((com.den.demo.net.protocol.Protocol.message)other);
+        if (other instanceof message) {
+          return mergeFrom((message)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.den.demo.net.protocol.Protocol.message other) {
-        if (other == com.den.demo.net.protocol.Protocol.message.getDefaultInstance()) return this;
+      public Builder mergeFrom(message other) {
+        if (other == message.getDefaultInstance()) return this;
         if (other.hasHeader()) {
           mergeHeader(other.getHeader());
         }
@@ -5068,21 +5358,21 @@ public final class Protocol {
         return this;
       }
 
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.den.demo.net.protocol.Protocol.message parsedMessage = null;
+        message parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.den.demo.net.protocol.Protocol.message) e.getUnfinishedMessage();
+          parsedMessage = (message) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5092,9 +5382,9 @@ public final class Protocol {
         return this;
       }
 
-      private com.den.demo.net.protocol.Protocol.message.Header header_;
+      private Header header_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.den.demo.net.protocol.Protocol.message.Header, com.den.demo.net.protocol.Protocol.message.Header.Builder, com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder> headerBuilder_;
+          Header, Header.Builder, HeaderOrBuilder> headerBuilder_;
       /**
        * <pre>
        * 消息头
@@ -5114,9 +5404,9 @@ public final class Protocol {
        * <code>.protocol.message.Header header = 1;</code>
        * @return The header.
        */
-      public com.den.demo.net.protocol.Protocol.message.Header getHeader() {
+      public Header getHeader() {
         if (headerBuilder_ == null) {
-          return header_ == null ? com.den.demo.net.protocol.Protocol.message.Header.getDefaultInstance() : header_;
+          return header_ == null ? Header.getDefaultInstance() : header_;
         } else {
           return headerBuilder_.getMessage();
         }
@@ -5128,7 +5418,7 @@ public final class Protocol {
        *
        * <code>.protocol.message.Header header = 1;</code>
        */
-      public Builder setHeader(com.den.demo.net.protocol.Protocol.message.Header value) {
+      public Builder setHeader(Header value) {
         if (headerBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5149,7 +5439,7 @@ public final class Protocol {
        * <code>.protocol.message.Header header = 1;</code>
        */
       public Builder setHeader(
-          com.den.demo.net.protocol.Protocol.message.Header.Builder builderForValue) {
+          Header.Builder builderForValue) {
         if (headerBuilder_ == null) {
           header_ = builderForValue.build();
           onChanged();
@@ -5166,11 +5456,11 @@ public final class Protocol {
        *
        * <code>.protocol.message.Header header = 1;</code>
        */
-      public Builder mergeHeader(com.den.demo.net.protocol.Protocol.message.Header value) {
+      public Builder mergeHeader(Header value) {
         if (headerBuilder_ == null) {
           if (header_ != null) {
             header_ =
-              com.den.demo.net.protocol.Protocol.message.Header.newBuilder(header_).mergeFrom(value).buildPartial();
+              Header.newBuilder(header_).mergeFrom(value).buildPartial();
           } else {
             header_ = value;
           }
@@ -5206,7 +5496,7 @@ public final class Protocol {
        *
        * <code>.protocol.message.Header header = 1;</code>
        */
-      public com.den.demo.net.protocol.Protocol.message.Header.Builder getHeaderBuilder() {
+      public Header.Builder getHeaderBuilder() {
         
         onChanged();
         return getHeaderFieldBuilder().getBuilder();
@@ -5218,12 +5508,12 @@ public final class Protocol {
        *
        * <code>.protocol.message.Header header = 1;</code>
        */
-      public com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder getHeaderOrBuilder() {
+      public HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
           return headerBuilder_.getMessageOrBuilder();
         } else {
           return header_ == null ?
-              com.den.demo.net.protocol.Protocol.message.Header.getDefaultInstance() : header_;
+              Header.getDefaultInstance() : header_;
         }
       }
       /**
@@ -5234,11 +5524,11 @@ public final class Protocol {
        * <code>.protocol.message.Header header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.den.demo.net.protocol.Protocol.message.Header, com.den.demo.net.protocol.Protocol.message.Header.Builder, com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder> 
+          Header, Header.Builder, HeaderOrBuilder>
           getHeaderFieldBuilder() {
         if (headerBuilder_ == null) {
           headerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.den.demo.net.protocol.Protocol.message.Header, com.den.demo.net.protocol.Protocol.message.Header.Builder, com.den.demo.net.protocol.Protocol.message.HeaderOrBuilder>(
+              Header, Header.Builder, HeaderOrBuilder>(
                   getHeader(),
                   getParentForChildren(),
                   isClean());
@@ -5250,7 +5540,7 @@ public final class Protocol {
       private com.google.protobuf.ByteString body_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       *body
+       * body
        * </pre>
        *
        * <code>bytes body = 2;</code>
@@ -5261,7 +5551,7 @@ public final class Protocol {
       }
       /**
        * <pre>
-       *body
+       * body
        * </pre>
        *
        * <code>bytes body = 2;</code>
@@ -5279,7 +5569,7 @@ public final class Protocol {
       }
       /**
        * <pre>
-       *body
+       * body
        * </pre>
        *
        * <code>bytes body = 2;</code>
@@ -5291,13 +5581,13 @@ public final class Protocol {
         onChanged();
         return this;
       }
-      @java.lang.Override
+      @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @java.lang.Override
+      @Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5308,18 +5598,18 @@ public final class Protocol {
     }
 
     // @@protoc_insertion_point(class_scope:protocol.message)
-    private static final com.den.demo.net.protocol.Protocol.message DEFAULT_INSTANCE;
+    private static final message DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.den.demo.net.protocol.Protocol.message();
+      DEFAULT_INSTANCE = new message();
     }
 
-    public static com.den.demo.net.protocol.Protocol.message getDefaultInstance() {
+    public static message getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
     private static final com.google.protobuf.Parser<message>
         PARSER = new com.google.protobuf.AbstractParser<message>() {
-      @java.lang.Override
+      @Override
       public message parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5332,13 +5622,13 @@ public final class Protocol {
       return PARSER;
     }
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<message> getParserForType() {
       return PARSER;
     }
 
-    @java.lang.Override
-    public com.den.demo.net.protocol.Protocol.message getDefaultInstanceForType() {
+    @Override
+    public message getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5346,37 +5636,37 @@ public final class Protocol {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Chat_Message_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Chat_Message_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Friend_Request_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Friend_Request_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Login_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Login_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Response_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Response_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Notify_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Notify_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protocol_message_Header_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protocol_message_Header_fieldAccessorTable;
 
@@ -5387,24 +5677,26 @@ public final class Protocol {
   private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\022\010protocol\"\323\004\n\007message\022(\n" +
+    String[] descriptorData = {
+      "\n\rmessage.proto\022\010protocol\"\240\005\n\007message\022(\n" +
       "\006header\030\001 \001(\0132\030.protocol.message.Header\022" +
       "\014\n\004body\030\002 \001(\014\032v\n\014Chat_Message\022\017\n\007content" +
       "\030\001 \001(\t\0221\n\004type\030\002 \001(\0162#.protocol.message." +
       "Chat_Message_Type\022\017\n\007send_to\030\003 \001(\003\022\021\n\tse" +
-      "nd_from\030\004 \001(\003\0326\n\016Friend_Request\022\022\n\napply" +
-      "_from\030\001 \001(\003\022\020\n\010apply_to\030\002 \001(\003\032\026\n\005Login\022\r" +
-      "\n\005token\030\001 \001(\t\032Z\n\010Response\022\013\n\003ack\030\001 \001(\003\022\022" +
-      "\n\nis_success\030\002 \001(\010\022-\n\004type\030\003 \001(\0162\037.proto" +
-      "col.message.Response_Type\032\025\n\006Notify\022\013\n\003s" +
-      "eq\030\001 \001(\003\032Z\n\006Header\022\030\n\020protocol_version\030\001" +
-      " \001(\002\022\024\n\014message_type\030\002 \001(\t\022\023\n\013body_lengt" +
-      "h\030\003 \001(\005\022\013\n\003seq\030\004 \001(\003\">\n\021Chat_Message_Typ" +
-      "e\022\010\n\004TEXT\020\000\022\t\n\005IMAGE\020\001\022\t\n\005VOICE\020\002\022\t\n\005VID" +
-      "EO\020\003\"9\n\rResponse_Type\022\n\n\006NOTIFY\020\000\022\010\n\004CHA" +
-      "T\020\001\022\010\n\004PUSH\020\002\022\010\n\004NONE\020\003B%\n\031com.den.demo." +
-      "net.protocolB\010Protocolb\006proto3"
+      "nd_from\030\004 \001(\003\032J\n\016Friend_Request\022\022\n\napply" +
+      "_from\030\001 \001(\003\022\020\n\010apply_to\030\002 \001(\003\022\022\n\nrecords" +
+      "_id\030\003 \001(\003\032\026\n\005Login\022\r\n\005token\030\001 \001(\t\032q\n\010Res" +
+      "ponse\022\013\n\003ack\030\001 \001(\003\022\022\n\nis_success\030\002 \001(\010\022-" +
+      "\n\004type\030\003 \001(\0162\037.protocol.message.Response" +
+      "_Type\022\025\n\rresponse_data\030\004 \001(\t\032\025\n\006Notify\022\013" +
+      "\n\003seq\030\001 \001(\003\032Z\n\006Header\022\030\n\020protocol_versio" +
+      "n\030\001 \001(\002\022\024\n\014message_type\030\002 \001(\t\022\023\n\013body_le" +
+      "ngth\030\003 \001(\005\022\013\n\003seq\030\004 \001(\003\">\n\021Chat_Message_" +
+      "Type\022\010\n\004TEXT\020\000\022\t\n\005IMAGE\020\001\022\t\n\005VOICE\020\002\022\t\n\005" +
+      "VIDEO\020\003\"[\n\rResponse_Type\022\n\n\006NOTIFY\020\000\022\010\n\004" +
+      "CHAT\020\001\022\017\n\013STOP_NOTIFY\020\002\022\031\n\025CHANGE_REQUES" +
+      "T_STATUS\020\003\022\010\n\004NONE\020\004B%\n\031com.den.demo.net" +
+      ".protocolB\010Protocolb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5415,43 +5707,43 @@ public final class Protocol {
     internal_static_protocol_message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_descriptor,
-        new java.lang.String[] { "Header", "Body", });
+        new String[] { "Header", "Body", });
     internal_static_protocol_message_Chat_Message_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(0);
     internal_static_protocol_message_Chat_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Chat_Message_descriptor,
-        new java.lang.String[] { "Content", "Type", "SendTo", "SendFrom", });
+        new String[] { "Content", "Type", "SendTo", "SendFrom", });
     internal_static_protocol_message_Friend_Request_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(1);
     internal_static_protocol_message_Friend_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Friend_Request_descriptor,
-        new java.lang.String[] { "ApplyFrom", "ApplyTo", });
+        new String[] { "ApplyFrom", "ApplyTo", "RecordsId", });
     internal_static_protocol_message_Login_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(2);
     internal_static_protocol_message_Login_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Login_descriptor,
-        new java.lang.String[] { "Token", });
+        new String[] { "Token", });
     internal_static_protocol_message_Response_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(3);
     internal_static_protocol_message_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Response_descriptor,
-        new java.lang.String[] { "Ack", "IsSuccess", "Type", });
+        new String[] { "Ack", "IsSuccess", "Type", "ResponseData", });
     internal_static_protocol_message_Notify_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(4);
     internal_static_protocol_message_Notify_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Notify_descriptor,
-        new java.lang.String[] { "Seq", });
+        new String[] { "Seq", });
     internal_static_protocol_message_Header_descriptor =
       internal_static_protocol_message_descriptor.getNestedTypes().get(5);
     internal_static_protocol_message_Header_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protocol_message_Header_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "MessageType", "BodyLength", "Seq", });
+        new String[] { "ProtocolVersion", "MessageType", "BodyLength", "Seq", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

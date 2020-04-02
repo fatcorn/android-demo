@@ -107,7 +107,7 @@ public class ProtocolHandler {
         public void run() {
             for(;;) {
                 try {
-                    //阻塞
+                    //阻塞 取消息
                     Protocol.message message = messageQueue.take();
                     //获取输出流
                     OutputStream os = socket.getOutputStream();
@@ -126,56 +126,84 @@ public class ProtocolHandler {
     }
 
 
-
+    /**
+     * 监听线程
+     * 收包逻辑分析
+     * -------------------------------------------------------------------
+     * |                                                                  |
+     * |    |______|________|______________|______|________|              |
+     * |    0  p1     p2          ...                pn   255             |
+     * |    接收报文情况说明:                                               |
+     * |    1: 接收一个包:                                                 |
+     * |       a.p1.len <= 256                                            |
+     * |       b.p2.len >  256                                            |
+     * |    2: 接收多个包                                                  |
+     * |       a.(p1 + p2).len <= 256                                     |
+     * |       b.(p1 + p2).len > 256                                      |
+     * |                                                                  |
+     * --------------------------------------------------------------------
+     *
+     */
     // 监听线程
     class Receiver implements Runnable {
-
         @Override
         public void run() {
             try {
                 InputStream is = socket.getInputStream();
+                // 字节缓冲区
                 ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+                //缓冲区
                 byte[] buffer = new byte[256];
                 // 读取流的长度
                 int streamLen;
-                // 报文长度
+                // 报文长度,等于0报文解析完成的标志
                 int messageLength = 0;
                 // 不停的读取数据
                 for (;;){
+                    // 字节缓冲区为0时，开始读取缓冲区中新的报文
                     streamLen = is.read(buffer);
-                    bufferStream.write(buffer, 0, streamLen);
-                    //已读取字节
-                    byte[] streamByte = bufferStream.toByteArray();
-                    //报文长度声明报文字节段 中解析出 报文长度
-                    if (streamByte.length >= 4 && messageLength == 0) {
-                        //报文长度声明报文字节段
-                        byte[] messageLengthByte = new byte[4];
-                        System.arraycopy(streamByte,0,messageLengthByte,0,messageLengthByte.length);
-                        messageLength = ProtocolUtil.spliceMessageLength(messageLengthByte);
-                    }
-                    // 报文长度大于0，且已读取出所有报文，开始解析数据报文
-                    if(messageLength > 0 && streamByte.length - 4 >= messageLength) {
-                        // 报文正文字节数组
-                        byte[] messageByte = new byte[messageLength];
-                        // 流中剩余字节
-                        byte[] leftByte = new byte[streamByte.length - messageLength - 4];
-                        //拷贝出报文正文字节数组
-                        System.arraycopy(streamByte,4,messageByte,0,messageLength);
-                        //如果流中还有报文,拷贝出来，再清空字节缓存流
-                        if(leftByte.length > 0) {
+                    bufferStream.write(buffer, bufferStream.size(), streamLen);
+
+                    //报文加载完标志
+                    boolean messageLoadOverFlag = true;
+
+                    // 缓冲区有报文，且当前报文包已加载完，继续读，直到缓冲区报文读完
+                    while (bufferStream.size() > 0 && messageLoadOverFlag) {
+                        //读取缓冲区字节
+                        byte[] streamByte = bufferStream.toByteArray();
+
+                        //报文长度声明报文字节段 中解析出 报文长度
+                        if (streamByte.length >= 4 && messageLength == 0) {
+                            //报文长度声明报文字节段
+                            byte[] messageLengthByte = new byte[4];
+                            System.arraycopy(streamByte,0,messageLengthByte,0,messageLengthByte.length);
+                            messageLength = ProtocolUtil.spliceMessageLength(messageLengthByte);
+                        }
+
+                        // 报文长度大于0，且已读取出所有报文，开始解析数据报文
+                        if(messageLength > 0 && streamByte.length - 4 >= messageLength) {
+                            // 报文正文字节数组
+                            byte[] messageByte = new byte[messageLength];
+                            // 流中剩余字节
+                            byte[] leftByte = new byte[streamByte.length - messageLength - 4];
+                            //拷贝出报文正文字节数组
+                            System.arraycopy(streamByte,4,messageByte,0,messageLength);
                             //拷贝出流中剩余字节
                             System.arraycopy(streamByte, 4 + messageLength,leftByte ,0,leftByte.length);
                             //清空缓存区,并将未处理报文写入
                             bufferStream.reset();
                             bufferStream.write(leftByte,0, leftByte.length);
+                            // 考虑解析时发生异常
+                            Protocol.message message =  Protocol.message.parseFrom(messageByte);
+                            //next 处理消息
+                            ProtocolAdapter.distributeMessage(message);
+                            // 报文长度置0，表示一个报文数据已读取,指示读取下一个报文长度
+                            messageLength = 0;
                         }
-
-                        // 考虑解析时发生异常
-                        Protocol.message message =  Protocol.message.parseFrom(messageByte);
-                        //next 处理消息
-                        ProtocolAdapter.distributeMessage(message);
-                        // 报文长度置0，表示一个报文数据已读取,指示读取下一个报文长度
-                        messageLength = 0;
+                        else {
+                            // 报文未加载完，跳出循环
+                            messageLoadOverFlag = false;
+                        }
                     }
                 }
             } catch (IOException e) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,11 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.den.demo.R;
+import com.den.demo.adapter.FriendRequestDataAdapter;
 import com.den.demo.adapter.HomePageActivityViewPagerAdapter;
 import com.den.demo.fragment.CommunityFragment;
 import com.den.demo.fragment.ContactFragment;
 import com.den.demo.fragment.MessageFragment;
 import com.den.demo.fragment.PersonalFragment;
+import com.den.demo.util.UICommunityUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +26,7 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 
 import java.lang.reflect.Field;
 
+import lombok.Getter;
 import q.rorbin.badgeview.QBadgeView;
 
 
@@ -42,8 +46,6 @@ public class HomePageActivity extends AppCompatActivity {
     // 我的消息计数
     private TextView personMessageCountTextView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,22 @@ public class HomePageActivity extends AppCompatActivity {
         for (int i = 0; i < bottomNavView.getChildCount(); i++) {
             showBadgeView(i, bottomNavView);
         }
+
+        // 接收消息
+        UICommunityUtil.handler = new Handler(msg -> {
+            switch (msg.what) {
+                case 0:
+                    this.contactMessageCountTextView.setText(Integer.valueOf(this.contactMessageCountTextView.getText().toString()) + 1);
+                case 1:
+                    this.messageCountTextView.setText(Integer.valueOf(this.messageCountTextView.getText().toString()) + 1);
+                case 2:
+                    this.communityMessageCountTextView.setText(Integer.valueOf(this.communityMessageCountTextView.getText().toString()) + 1);
+                case 3:
+                    System.out.println("ui 通知已传递");
+                    this.personMessageCountTextView.setText(Integer.valueOf(this.personMessageCountTextView.getText().toString()) + 1 + "");
+            }
+            return true;
+        });
 
         //        为Adapter添加Fragment
         adapter.addFragment(new ContactFragment());
@@ -90,6 +108,7 @@ public class HomePageActivity extends AppCompatActivity {
             // true 会显示这个Item被选中的效果 false 则不会
             return true;
         });
+
 //        为 ViewPager 设置监听事件
         mainActivityViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -108,6 +127,8 @@ public class HomePageActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 //    /**

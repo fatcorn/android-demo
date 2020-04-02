@@ -18,7 +18,7 @@ public interface NetService {
      * @return
      */
     @FormUrlEncoded
-    @POST("/UCENTER/uc/login/login")
+    @POST("/ucenter/uc/login/login")
     Call<ResponseMessage> login(@Field("phoneNumber") String phoneNumber, @Field("password") String password);
 
     /**
@@ -26,14 +26,14 @@ public interface NetService {
      * @param retrieveInfo
      * @return
      */
-    @GET("/UCENTER/uc/user/userRetrieve")
+    @GET("/ucenter/uc/user/userRetrieve")
     Call<ResponseMessage> userRetrieve(@Query("retrieveInfo") String retrieveInfo);
 
     /**
      * 查询好友请求历史
      * @return
      */
-    @GET("/UCENTER/uc/user/getFriendRequest")
+    @GET("/ucenter/uc/user/getFriendRequest")
     Call<ResponseMessage> getFriendRequest();
 
     /**
@@ -42,13 +42,13 @@ public interface NetService {
      * @param result
      * @return
      */
-    @GET("/UCENTER/uc/user/handFriendRequest")
+    @GET("/ucenter/uc/user/handFriendRequest")
     Call<ResponseMessage> handFriendRequest(@Query("requestId") Long requestId, @Query("result") CommonEnum result);
 
     /**
      * 获取好友列表
      * @return
      */
-    @GET("/UCENTER/uc/user/getContacts")
+    @GET("/ucenter/uc/user/friends/list")
     Call<ResponseMessage> getContacts();
 }

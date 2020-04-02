@@ -51,7 +51,7 @@ public class RequestHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_history);
 
-        // 接受消息
+        // 接收消息
         handler = new Handler(msg -> {
             listView = findViewById(R.id.arh_requestHistory);
             textView = findViewById(R.id.arh_WithDataView);

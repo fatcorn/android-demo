@@ -1,5 +1,7 @@
 package com.den.demo.net.protocol;
 
+import android.app.Service;
+
 import com.google.common.base.CaseFormat;
 import com.google.protobuf.InvalidProtocolBufferException;
 
